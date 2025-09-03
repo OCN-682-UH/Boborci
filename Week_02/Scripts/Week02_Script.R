@@ -11,3 +11,4 @@ WeightData<-read_csv(here("Week_02","Data", "weightdata.csv"))
 head(WeightData) ###shows top 6 lines of data set 
 tail(WeightData) ###shows bottom 6 lines
 view(WeightData) ###shows whole data set
+### end of this assignment###
