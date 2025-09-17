@@ -46,6 +46,7 @@ theme_clean()+
                                 face="bold"))
 ggsave(here("Week_03", "Output","penguin_homework.png"),
        width=7, height=5)  
+
   
 
 
