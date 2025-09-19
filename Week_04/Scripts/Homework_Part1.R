@@ -90,12 +90,12 @@ ggplot(data=penguin_clean, mapping=aes(x=species,
   geom_jitter(alpha=0.4)+
   scale_fill_fish_d(option = "Naso_lituratus")+
   labs(title="Log of Penguin Body Mass Across Islands",
-       subtitle="Female Penguinn Bodymass of each species across three islands",
+       subtitle="Female Penguin Bodymass of Each Species Across Three Islands",
        x="Species",
        y="Log Body Mass",
        fill="Species",
        caption="Data from the palmerpenguins package from the Palmer LTER")+
-  theme_clean()+
+  theme_clean()+ 
   theme(axis.title=element_text(size=15,
                                 color="darkblue",))+
   theme(plot.title=element_text(size=15,
@@ -104,7 +104,7 @@ ggplot(data=penguin_clean, mapping=aes(x=species,
 ggsave(here("Week_04", "Output","Week04_homework_01.png"),
        width=7, height=5)  
 
-
+#### Do other HW and figure out how to fix commit messages for other weeks 
 
 
 
