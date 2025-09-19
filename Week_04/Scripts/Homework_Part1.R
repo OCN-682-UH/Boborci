@@ -40,7 +40,7 @@ penguin_clean<-penguins %>%      ###use penguin dataframe
 view(penguin_clean)  
 
 ###Make plot of log body mass  for females by species per island?
-ggplot(data=penguin_clean, mapping=aes(x=species,
+penguin_boxplot<- ggplot(data=penguin_clean, mapping=aes(x=species,
                                        y=log_mass,
                                        group=species,
                                        fill=species))+
@@ -48,19 +48,24 @@ ggplot(data=penguin_clean, mapping=aes(x=species,
 geom_boxplot()+
   geom_jitter(alpha=0.4)
 
+penguin_boxplot
+
 ###Why do I hate it ###
 
 ### ok what about facet wrap the island, do log female body size per species in bar plot?
 
-ggplot(data=penguin_clean,
+penguin_barplot<-ggplot(data=penguin_clean,
        mapping=aes(x=species,
                    y=log_mass,
                    fill=species))+
   facet_wrap(~island)+
-  geom_bar(stat="identity")        ###Apparently this is how you make R use your variables instead of count
-  
+  geom_bar(stat="identity")  ###Apparently this is how you make R use your variables instead of count
+ 
+ penguin_barplot
+ 
 ### Ok I hate it less- make it prettier
-ggplot(data=penguin_clean,
+ 
+penguin_barplot2<-ggplot(data=penguin_clean,
 mapping=aes(x=species,
             y=log_mass,
             fill=species))+
@@ -68,9 +73,12 @@ mapping=aes(x=species,
   geom_bar(stat="identity")+
   scale_fill_fish_d(option = "Naso_lituratus")
   
+penguin_barplot2 
 
-####n Okay back to the boxplot
-ggplot(data=penguin_clean, mapping=aes(x=species,
+
+####Okay back to the boxplot
+
+penguin_boxplot2<-ggplot(data=penguin_clean, mapping=aes(x=species,
                                        y=log_mass,
                                        group=species,
                                        fill=species))+
@@ -79,16 +87,11 @@ ggplot(data=penguin_clean, mapping=aes(x=species,
   geom_jitter(alpha=0.4)+
   scale_fill_fish_d(option = "Naso_lituratus")
   
+penguin_boxplot2
+
 ####I hate it less now and it shows the Adelie variations that are small a little better
 
-ggplot(data=penguin_clean, mapping=aes(x=species,
-                                       y=log_mass,
-                                       group=species,
-                                       fill=species))+
-  facet_wrap(~island)+
-  geom_boxplot()+
-  geom_jitter(alpha=0.4)+
-  scale_fill_fish_d(option = "Naso_lituratus")+
+penguin_boxplot2+
   labs(title="Log of Penguin Body Mass Across Islands",
        subtitle="Female Penguin Bodymass of Each Species Across Three Islands",
        x="Species",
@@ -104,7 +107,7 @@ ggplot(data=penguin_clean, mapping=aes(x=species,
 ggsave(here("Week_04", "Output","Week04_homework_01.png"),
        width=7, height=5)  
 
-#### Do other HW and figure out how to fix commit messages for other weeks 
+ 
 
 
 
