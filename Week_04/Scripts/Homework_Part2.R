@@ -61,6 +61,7 @@ ggsave(here("Week_04", "Output","Week04_homework_02.png"),
 
 ####Is there an easy way to change the acutal parameter names on the graph? I know how to change the legend title etc. but not the actual legend values
 
+#### Also for some reason when I commited and pushed this, it changed the commit message on Week 3 output as well and I can't figure out how to change it
 
 
 
