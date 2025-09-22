@@ -27,7 +27,13 @@ ChemData_clean<-ChemData %>%
   group_by(Parameters, Time, Season) %>%            ### select what columns to look at
   summarize(mean_vals=mean(Values,na.rm=TRUE)) %>%  ### find mean values of each parameter
   filter(Parameters != "TA",
-         Parameters !="Phosphate")                  ###Scale was being thrown off by these parameters
+         Parameters !="Phosphate")%>%               ###Scale was being thrown off by these parameters
+   mutate(Parameters = case_when(
+     Parameters=="NN"~"Nitrate/Nitrite",            #### How to change actual legend data items
+     Parameters=="percent_sgd"~ "Percent SGD",
+     Parameters=="Temp_in"~"Temperature (C)",
+     TRUE~Parameters))
+                                                   ### command+shift+m makes pipe symbol
  
 
 ####Make a plot of the mean vals for each parameter during day and night comparing Spring and Fall for Site W
@@ -54,14 +60,12 @@ labs(title="Comparison of Chemical Parameters Across Site W",
   theme(axis.title=element_text(size=15))+
   theme(plot.title=element_text(size=15,
                                 face="bold"))+
-  theme(axis.text.x = element_text(angle=45,hjust = 1))+                     ###Angle parameter names so they don't overlap
+  theme(axis.text.x = element_text(angle=45,hjust = 1))                     ###Angle parameter names so they don't overlap
+
+# chem_plot
+
 ggsave(here("Week_04", "Output","Week04_homework_02.png"),                   
        width=7, height=5)  
-
-
-####Is there an easy way to change the actual parameter names on the graph? I know how to change the legend title etc. but not the actual legend values
-
-#### Also for some reason when I committed and pushed this, it changed the commit message on Week 3 output as well and I can't figure out how to change it
 
 
 
