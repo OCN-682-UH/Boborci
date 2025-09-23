@@ -32,7 +32,9 @@ ChemData_clean<-ChemData %>%
      Parameters=="NN"~"Nitrate/Nitrite",            #### How to change actual legend data items
      Parameters=="percent_sgd"~ "Percent SGD",
      Parameters=="Temp_in"~"Temperature (C)",
-     TRUE~Parameters))
+     TRUE~Parameters))%>%
+  
+  write_csv(here("Week_04", "Output", "chemdata_clean.csv"))
                                                    ### command+shift+m makes pipe symbol
  
 
@@ -41,7 +43,8 @@ ChemData_clean<-ChemData %>%
 ChemData_clean %>%
   ggplot(aes(x=Parameters, y=mean_vals, group = Parameters, fill=Parameters))+
   geom_histogram(stat="identity")+              ###Allows the axes to be what I determine
-  facet_grid(Time~Season, scales="free")        ### Facet the graphs in Seasons and Times, shows means of each parameter for each 
+  facet_grid(Time~Season, scales="free")      ### Facet the graphs in Seasons and Times, shows means of each parameter for each 
+
 
 #### Need to make title site W, fix x axis, fix up y axis, change color scheme 
 
