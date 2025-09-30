@@ -57,8 +57,8 @@ Data_long<-Ave_Data%>%
                values_to="Values")%>%
   filter(Ave_Measurements != "ave_depth")%>%        ### don't want this in my plot
   mutate(Ave_Measurements= case_when(
-    Ave_Measurements=="ave_salinity"~"Average Salinity",            #### How to change actual legend data items
-    Ave_Measurements=="ave_temp"~ "Average Temperature"))
+    Ave_Measurements=="ave_salinity"~"Average Salinity (PSU)",            #### How to change actual legend data items
+    Ave_Measurements=="ave_temp"~ "Average Temperature (ºC)"))
 
 
 
