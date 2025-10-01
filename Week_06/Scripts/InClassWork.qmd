@@ -1,0 +1,40 @@
+---
+title: "Week 6 In Class Work"
+author: "Madigan Boborci"
+date: "2025-09-30"
+date-modified: today
+format: 
+  html:
+    toc: true
+    theme: cerulean
+---
+
+## Introduction:
+This is my first **_Quarto_** doc, I will be figuring out how to use it! 
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(palmerpenguins)
+
+```
+
+## Look at the data
+```{r}
+glimpse(penguins)
+```
+
+## Making Plots
+This plot will look at the relationship between **bill length** and **bill depth**.
+```{r}
+#| warning: false
+penguins %>%  # peguin dataset
+  ggplot(aes(x=bill_length_mm, y=bill_depth_mm, color=species))+   #bill length vs depth
+  geom_point() 
+```
+
+
+
+
+
