@@ -1,0 +1,67 @@
+---
+title: "Week 6 Online Lec"
+author: "Madigan Boborci"
+format: gfm
+prefer-html: true
+knitr: 
+  opts_chunk:
+      fig.path: "../Output/"
+---
+## Introduction:
+This document is for the topics being taught in the online lecture.
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(palmerpenguins)
+library(kableExtra)
+
+```
+
+## Look at the data
+```{r}
+glimpse(penguins)
+```
+
+## Making Plots
+This plot will look at the relationship between **bill length** and **bill depth**.
+```{r}
+#| warning: false
+#| out-width: "70%"       # makes plot 70% of the width
+#| fig-align: "center"    # can change plot alignment 
+#| label: fig-penguin     # if a figure, always start with fig-. label applies to whole code chunk so 1 fig per chunk
+#| fig-cap: "This is a figure showing bill length by bill depth"
+penguins %>%  # peguin dataset
+  ggplot(aes(x=bill_length_mm, y=bill_depth_mm, color=species))+   #bill length vs depth
+  geom_point() 
+```
+
+When you look at @fig-penguin you can see a positive relationship between bill length and bill depth.
+
+```{r}
+#| label: tbl-penguin     #use tbl to label table
+#| tbl-cap: "My penguin table"
+penguins%>%
+  group_by(species) %>%
+  summarise(billmeanlength=mean(bill_length_mm, na.rm=TRUE))%>%   #find mean bill length by species
+  kbl()%>%     # makes a kable table
+  kable_classic()%>%   #one of the kbl themes
+  row_spec(2, bold=TRUE, color="white",background="red")%>%    #highlights specified row
+  kable_styling(full_width = FALSE)      #makes it so it doesn't take up full row of space
+
+```
+
+
+
+
+ @tbl-penguin shows the mean bill length by species
+
+
+
+
+
+
+
+
