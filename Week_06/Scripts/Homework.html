@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 1, 2025</p>
+      <p class="date-modified">October 2, 2025</p>
     </div>
   </div>
     
@@ -242,7 +242,8 @@ Figure&nbsp;1: Figure showing percent cover of CCA, Algae, and percent Nitrogen 
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>TableData<span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()<span class="sc">%&gt;%</span>  <span class="do">##PLEASE LET ME MAKE EACH SITE HAVE ONE VALUE PER COLUMN WITH NO NAS PLEASE</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collapse_rows</span>(<span class="at">column=</span><span class="dv">1</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">4</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">background=</span><span class="st">"lightpink"</span>)<span class="sc">%&gt;%</span><span class="co">#I want to highlight all of creepy tree as one row</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="co">#need to change column names </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-CCA" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-CCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -250,7 +251,7 @@ Table&nbsp;1: Percent Cover of CCA and Algae and Percent Nitrogen Values per Sit
 </figcaption>
 <div aria-describedby="tbl-CCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="lightable-paper do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="lightable-material do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
@@ -277,10 +278,10 @@ Table&nbsp;1: Percent Cover of CCA and Algae and Percent Nitrogen Values per Sit
 <td style="text-align: right;">37.150</td>
 </tr>
 <tr class="even">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Creepy Tree</td>
-<td style="text-align: right;">15.25</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td rowspan="3" style="text-align: left; vertical-align: middle !important; font-weight: bold; color: black !important; background-color: lightpink !important;">Creepy Tree</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">15.25</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">NA</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">NA</td>
@@ -367,7 +368,7 @@ Table&nbsp;1: Percent Cover of CCA and Algae and Percent Nitrogen Values per Sit
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>As seen in <a href="#fig-CCA" class="quarto-xref">Figure&nbsp;1</a>, the site with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>. In addition, the percet Nitrogen per site was closer examined in Fig 2 (will be showing nitrogen values closer, maybe compare to other N values?) and those values are delineated in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a> as well.</p>
+<p>As seen in <a href="#fig-CCA" class="quarto-xref">Figure&nbsp;1</a>, the site with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>. In addition, the percent Nitrogen per site was closer examined in Fig 2 (will be showing nitrogen values closer, maybe compare to other N values?) and those values are delineated in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a> as well.</p>
 </section>
 
 </main>

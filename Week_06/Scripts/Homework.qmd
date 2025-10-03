@@ -119,13 +119,14 @@ TableData<-PlotData%>%
 TableData%>%
   kbl()%>%  ##PLEASE LET ME MAKE EACH SITE HAVE ONE VALUE PER COLUMN WITH NO NAS PLEASE
   collapse_rows(column=1)%>%
-  kable_paper() #need to change column names 
+  row_spec(4, bold=TRUE, color="black", background="lightpink")%>%#I want to highlight all of creepy tree as one row
+  kable_material() #need to change column names 
 ```
 
 
 
 ## Summary
-As seen in @fig-CCA, the site with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. In addition, the percet Nitrogen per site was closer examined in Fig 2 (will be showing nitrogen values closer, maybe compare to other N values?) and those values are delineated in @tbl-CCA as well. 
+As seen in @fig-CCA, the site with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. In addition, the percent Nitrogen per site was closer examined in Fig 2 (will be showing nitrogen values closer, maybe compare to other N values?) and those values are delineated in @tbl-CCA as well. 
 
 
 
