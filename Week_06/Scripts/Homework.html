@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Homework_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Homework_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Homework_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Homework_files/libs/bootstrap/bootstrap-275c9d5b3ff9223315c8330c183067de.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Homework_files/libs/bootstrap/bootstrap-8ba292e623df7abc7d04ee9530393a97.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="Homework_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="Homework_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
@@ -183,16 +183,17 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>             <span class="co">#sort by these columns</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>           <span class="co">#mean values of each parameter per site</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,                    <span class="co">#change parameters to match data dictionary </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>          <span class="co">#sort by these columns</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>     <span class="co">#mean values of each parameter per site</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,              <span class="co">#change parameters to match data dictionary </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'name', 'parameter.measured'. You can
 override using the `.groups` argument.</code></pre>
