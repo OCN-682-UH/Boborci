@@ -85,10 +85,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction:</a></li>
-  <li><a href="#data-selection" id="toc-data-selection" class="nav-link" data-scroll-target="#data-selection">Data selection</a></li>
-  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data Analysis</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><strong>Introduction:</strong></a></li>
+  <li><a href="#data-selection" id="toc-data-selection" class="nav-link" data-scroll-target="#data-selection"><strong>Data selection:</strong></a></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis"><strong>Data Analysis:</strong></a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><strong>Summary</strong></a></li>
   </ul>
 </nav>
 </div>
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 3, 2025</p>
+      <p class="date-modified">October 6, 2025</p>
     </div>
   </div>
     
@@ -131,8 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>Questions for Callie: Won’t render photos on html if I have them in a fig path Why won’t the message under me cleaning my data go away</p>
 <section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction:</h2>
+<h2 class="anchored" data-anchor-id="introduction"><strong>Introduction:</strong></h2>
 <p>This document is for Week 6 homework. It will include:</p>
 <ul>
 <li>Code chunks</li>
@@ -147,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="data-selection" class="level2">
-<h2 class="anchored" data-anchor-id="data-selection">Data selection</h2>
+<h2 class="anchored" data-anchor-id="data-selection"><strong>Data selection:</strong></h2>
 <p>I have chosen to look at data from the <strong><em>Site Characteristics Data</em></strong> from sites in Mo’orea. I have also taken a look at the <strong><em>Data Dictionary</em></strong> to get insight about the data that were collected. These data were collected by Dr.Nyssa Silbiger.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>MooreaData<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"Week_06"</span>,<span class="st">"Data"</span>,<span class="st">"site.characteristics.data.csv"</span>))    <span class="co">#read in the data</span></span>
@@ -169,7 +170,7 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 </div>
 </section>
 <section id="data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
+<h2 class="anchored" data-anchor-id="data-analysis"><strong>Data Analysis:</strong></h2>
 <p>For this data set, I am going to take a look at the relationship between CCA cover and Algal cover, along with the percent of Nitrogen found in the tissue of <em>Sargassum sp</em> at each site. All sites are situated on the North Shore of Mo’orea.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -180,17 +181,18 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 <h4 class="anchored" data-anchor-id="this-code-chunk-is-going-to-extract-the-data-we-want-to-work-with-from-the-larger-dataset.">This code chunk is going to extract the data we want to work with from the larger dataset.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>             <span class="co">#sort by these columns</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>           <span class="co">#mean values of each parameter per site</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,                    <span class="co">#change parameters to match data dictionary </span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>             <span class="co">#sort by these columns</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>           <span class="co">#mean values of each parameter per site</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,                    <span class="co">#change parameters to match data dictionary </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'name', 'parameter.measured'. You can
 override using the `.groups` argument.</code></pre>
@@ -199,31 +201,33 @@ override using the `.groups` argument.</code></pre>
 </section>
 <section id="this-code-will-show-a-plot-of-algae-and-cca-cover-for-each-of-the-sites" class="level4">
 <h4 class="anchored" data-anchor-id="this-code-will-show-a-plot-of-algae-and-cca-cover-for-each-of-the-sites">This code will show a plot of % Algae and % CCA Cover for each of the sites</h4>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>PlotData <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>parameter.measured, <span class="at">y=</span>mean_vals, <span class="at">group =</span> parameter.measured, <span class="at">fill=</span>parameter.measured))<span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>)<span class="sc">+</span>        <span class="do">###Allows the axes to be what I determine</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name)<span class="sc">+</span>                 <span class="do">### Facet the graphs by site, shows means of each parameter for each</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_fish_d</span>(<span class="at">option =</span> <span class="st">"Scarus_quoyi"</span>)<span class="sc">+</span>      <span class="do">###Color scheme from fishualize package</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Substrate Cover and Nitrogen Percentages at each Site"</span>,                  </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">subtitle=</span><span class="st">"Mean Percentages of CCA and Fleshy Algae cover at sites in Mo'orea"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">x=</span><span class="cn">NULL</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="st">"Percent"</span>,                                            <span class="do">###Change axes and Titles etc</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">fill=</span><span class="st">"Value Measured"</span>)<span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span>                                     </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">face=</span><span class="st">"bold"</span>))<span class="sc">+</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>,<span class="at">hjust =</span> <span class="dv">1</span>))    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># But also do I want to change this figure to a point plot with CCA across sites and Algae across sites and then just use the table as supplement for my nitrogen claim</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-CCA</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Figure showing percent cover of CCA, Algae, and percent Nitrogen at each site</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "75%"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: "center"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#| </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>PlotData <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>parameter.measured, <span class="at">y=</span>mean_vals, <span class="at">group =</span> parameter.measured, <span class="at">fill=</span>parameter.measured))<span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>)<span class="sc">+</span>        <span class="do">###Allows the axes to be what I determine</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name)<span class="sc">+</span>                 <span class="do">### Facet the graphs by site, shows means of each parameter for each</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_fish_d</span>(<span class="at">option =</span> <span class="st">"Scarus_quoyi"</span>)<span class="sc">+</span>      <span class="do">###Color scheme from fishualize package</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Substrate Cover and Nitrogen Percentages at each Site"</span>,                  </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">subtitle=</span><span class="st">"Mean Percentages of CCA and Fleshy Algae cover at sites in Mo'orea"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">x=</span><span class="cn">NULL</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="st">"Percent"</span>,                                            <span class="do">###Change axes and Titles etc</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">fill=</span><span class="st">"Value Measured"</span>)<span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span>                                     </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                                <span class="at">face=</span><span class="st">"bold"</span>))<span class="sc">+</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>,<span class="at">hjust =</span> <span class="dv">1</span>))    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-CCA" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-CCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../Output/fig-CCA-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Figure showing percent cover of CCA, Algae, and percent Nitrogen at each site
-</figcaption>
+<div>
+<figure class="figure">
+<p><img src="../Output/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -269,7 +273,7 @@ Figure&nbsp;1: Figure showing percent cover of CCA, Algae, and percent Nitrogen 
 <img src="../Output/fig-Cover-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Figure showing percent cover breakdown at site Creepy Tree
+Figure&nbsp;1: Figure showing percent cover breakdown at site Creepy Tree
 </figcaption>
 </figure>
 </div>
@@ -279,18 +283,18 @@ Figure&nbsp;2: Figure showing percent cover breakdown at site Creepy Tree
 <section id="this-code-will-make-a-nice-table-to-assess-the-nitrogen-percentage-in-sargassum-sp-taken-at-each-site" class="level4">
 <h4 class="anchored" data-anchor-id="this-code-will-make-a-nice-table-to-assess-the-nitrogen-percentage-in-sargassum-sp-taken-at-each-site">This code will make a nice table to assess the Nitrogen percentage in <em>Sargassum sp</em> taken at each site</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>TableData<span class="ot">&lt;-</span>PlotData<span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>parameter.measured,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span> mean_vals)<span class="sc">%&gt;%</span>    </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name)<span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">values=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>TableData<span class="ot">&lt;-</span>MooreaData<span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"N"</span>,<span class="st">"CCA.cover"</span>, <span class="st">"algal.cover"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>parameter.measured,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span> values)<span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name)<span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">site.letter=</span><span class="cn">NULL</span>, <span class="at">site.block=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>TableData<span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"% CCA Cover"</span>, <span class="st">"% Nitrogen"</span>, <span class="st">"% Algae Cover"</span>))<span class="sc">%&gt;%</span>  <span class="do">##PLEASE LET ME MAKE EACH SITE HAVE ONE VALUE PER COLUMN WITH NO NAS PLEASE</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collapse_rows</span>(<span class="at">column=</span><span class="dv">1</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">4</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">background=</span><span class="st">"lightpink"</span>)<span class="sc">%&gt;%</span><span class="co">#I want to highlight all of creepy tree as one row</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="co">#need to change column names </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Site"</span>,  <span class="st">"% Nitrogen"</span>, <span class="st">"% CCA Cover"</span>, <span class="st">"% Algae Cover"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">row_spec</span>(<span class="dv">6</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">background=</span><span class="st">"lightpink"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-CCA" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-CCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -302,107 +306,47 @@ Table&nbsp;1: Percent Cover of CCA and Algae and Percent Nitrogen Values per Sit
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Site</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">% CCA Cover</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">% Nitrogen</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">% CCA Cover</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">% Algae Cover</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Anemone Heaven</td>
-<td style="text-align: right;">6.10</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Anemone Heaven</td>
 <td style="text-align: right;">0.7840256</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">6.10</td>
 <td style="text-align: right;">37.150</td>
 </tr>
 <tr class="even">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important; font-weight: bold; color: black !important; background-color: lightpink !important;">Creepy Tree</td>
-<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">15.25</td>
-<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">NA</td>
-<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.7474160</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">14.500</td>
-</tr>
-<tr class="odd">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Hilton High</td>
-<td style="text-align: right;">10.25</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Hilton High</td>
 <td style="text-align: right;">0.7906739</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">10.25</td>
 <td style="text-align: right;">32.625</td>
 </tr>
-<tr class="even">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Manava</td>
-<td style="text-align: right;">4.00</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.8935947</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">22.375</td>
-</tr>
-<tr class="odd">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Public Beach</td>
-<td style="text-align: right;">7.50</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Public Beach</td>
 <td style="text-align: right;">0.6703865</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">7.50</td>
 <td style="text-align: right;">20.000</td>
 </tr>
 <tr class="even">
-<td rowspan="3" style="text-align: left; vertical-align: middle !important;">Sargassum Heaven</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Manava</td>
+<td style="text-align: right;">0.8935947</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">22.375</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Sargassum Heaven</td>
 <td style="text-align: right;">0.8584450</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">14.500</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">14.500</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: lightpink !important;">Creepy Tree</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">0.7474160</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">15.25</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: lightpink !important;">14.500</td>
 </tr>
 </tbody>
 </table>
@@ -414,8 +358,8 @@ Table&nbsp;1: Percent Cover of CCA and Algae and Percent Nitrogen Values per Sit
 </section>
 </section>
 <section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>As seen in <a href="#fig-CCA" class="quarto-xref">Figure&nbsp;1</a>, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>. As seen in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>, the oly other site with that low percentage of algae cover had a higher % Nitrogen detected in <em>Sargassum sp</em> tissue. In addition, the total substrate cover makeup was closer examined at that site in <a href="#fig-Cover" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<h2 class="anchored" data-anchor-id="summary"><strong>Summary</strong></h2>
+<p>As seen in <strong>?@fig-CCA</strong>, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>. As seen in <a href="#tbl-CCA" class="quarto-xref">Table&nbsp;1</a>, the only other site with that low percentage of algae cover had a higher % Nitrogen detected in <em>Sargassum sp</em> tissue. In addition, the total substrate cover makeup was closer examined at that site in <a href="#fig-Cover" class="quarto-xref">Figure&nbsp;1</a>.</p>
 </section>
 
 </main>

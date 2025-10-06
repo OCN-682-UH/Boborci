@@ -13,8 +13,10 @@ format:
     mainfont: "Archer"
    
 ---
+Questions for Callie: Won't render photos on html if I have them in a fig path
+Why won't the message under me cleaning my data go away
 
-## Introduction:
+## **Introduction:**
 
 This document is for Week 6 homework. It will include:
 
@@ -32,7 +34,7 @@ library(fishualize)
 
 ```
 
-## Data selection
+## **Data selection:**
 
 I have chosen to look at data from the **_Site Characteristics Data_** from sites in Mo'orea. I have also taken a look at the **_Data Dictionary_** to get insight about the data that were collected. These data were collected by Dr.Nyssa Silbiger.
 
@@ -49,7 +51,7 @@ View(DataDictionary)
 
 ```
 
-## Data Analysis
+## **Data Analysis:**
 
 For this data set, I am going to take a look at the relationship between CCA cover and Algal cover, along with the percent of Nitrogen found in the tissue of *Sargassum sp* at each site. All sites are situated on the North Shore of Mo'orea.
 
@@ -59,13 +61,15 @@ For this data set, I am going to take a look at the relationship between CCA cov
 
 ```{r}
 ##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N
+#| message: false
+#| warning: false
 
 PlotData<-MooreaData %>%
   drop_na()%>%
-   group_by(name, parameter.measured, values)%>%             #sort by these columns
-  summarise(mean_vals=mean(values, na.rm=TRUE))%>%           #mean values of each parameter per site
+   group_by(name, parameter.measured, values)%>%          #sort by these columns
+  summarise(mean_vals=mean(values, na.rm=TRUE))%>%     #mean values of each parameter per site
   mutate(parameter.measured= case_when(
-    parameter.measured=="N"~"Nitrogen",                    #change parameters to match data dictionary 
+    parameter.measured=="N"~"Nitrogen",              #change parameters to match data dictionary 
     parameter.measured=="CCA.cover"~"CCA Cover",
     parameter.measured=="algal.cover"~"Fleshy Algae Cover",
   TRUE~parameter.measured))%>%
@@ -78,6 +82,9 @@ filter(parameter.measured %in% c("Nitrogen","CCA Cover","Fleshy Algae Cover"))  
 #### This code will show a plot of % Algae and % CCA Cover for each of the sites 
 
 ```{r}
+
+# But also do I want to change this figure to a point plot with CCA across sites and Algae across sites and then just use the table as supplement for my nitrogen claim
+
 #| label: fig-CCA
 #| fig-cap: Figure showing percent cover of CCA, Algae, and percent Nitrogen at each site
 #| out-width: "75%"
@@ -104,6 +111,7 @@ labs(title="Substrate Cover and Nitrogen Percentages at each Site",
 #### This code will create a plot to show the breakdown of substrate cover at the site with the most CCA cover
 
 ```{r}
+#| message: false
 Plot2Data<-MooreaData %>%
   drop_na()%>%
    group_by(name, parameter.measured, values)%>%             #sort by these columns
@@ -150,11 +158,14 @@ labs(title="Percent Substrate Cover",
 
 ```{r}
 
-TableData<-PlotData%>%
+TableData<-MooreaData%>%
+  filter(parameter.measured %in% c("N","CCA.cover", "algal.cover"))%>%
   pivot_wider(names_from=parameter.measured,
-              values_from= mean_vals)%>%    
+              values_from= values)%>%
   group_by(name)%>%
-  mutate(values=NULL)
+  mutate(site.letter=NULL, site.block=NULL)
+
+
 ```
 
 
@@ -163,17 +174,19 @@ TableData<-PlotData%>%
 #| tbl-cap: "Percent Cover of CCA and Algae and Percent Nitrogen Values per Site "
 
 TableData%>%
-  kbl(col.names=c("Site", "% CCA Cover", "% Nitrogen", "% Algae Cover"))%>%  ##PLEASE LET ME MAKE EACH SITE HAVE ONE VALUE PER COLUMN WITH NO NAS PLEASE
-  collapse_rows(column=1)%>%
-  row_spec(4, bold=TRUE, color="black", background="lightpink")%>%#I want to highlight all of creepy tree as one row
-  kable_material() #need to change column names 
+  kbl(col.names=c("Site",  "% Nitrogen", "% CCA Cover", "% Algae Cover"))%>%
+   row_spec(6, bold=TRUE, color="black", background="lightpink")%>%
+  kable_material() 
 ```
 
 
 
 
-## Summary
-As seen in @fig-CCA, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. As seen in @tbl-CCA, the oly other site with that low percentage of algae cover had a higher % Nitrogen detected in _Sargassum sp_ tissue. In addition, the total substrate cover makeup was closer examined at that site in @fig-Cover. 
+## **Summary**
+As seen in @fig-CCA, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. As seen in @tbl-CCA, the only other site with that low percentage of algae cover had a higher % Nitrogen detected in _Sargassum sp_ tissue. In addition, the total substrate cover makeup was closer examined at that site in @fig-Cover. 
+
+
+
 
 
 
