@@ -21,7 +21,6 @@ This document is for Week 6 homework. It will include:
 
 ```{r}
 # Load libraries
-
 #| message: false
 #| warning: false
 library(tidyverse)
