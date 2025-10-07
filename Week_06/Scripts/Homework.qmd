@@ -9,9 +9,6 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
-knitr: 
-  opts_chunk:
-      fig.path: "../Output/"
 ---
 
 ## **Introduction:**
