@@ -6,14 +6,16 @@ date-modified: today
 format: 
   html:
     toc: true
-    theme: united
+    theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
+  
+---
 knitr: 
   opts_chunk:
-      fig.path: "../Output/"   
----
-
+      fig.path: "../Output/" -how to save to output- won't pull up figures on html when in YAML
+      
+      
 ## **Introduction:**
 
 This document is for Week 6 homework. It will include:
