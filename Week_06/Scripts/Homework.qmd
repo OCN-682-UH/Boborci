@@ -6,7 +6,7 @@ date-modified: today
 format: 
   html:
     toc: true
-    theme: cerulean
+    theme: united
     mainfont: "Georgia"
     prefer-html: true
 knitr: 
