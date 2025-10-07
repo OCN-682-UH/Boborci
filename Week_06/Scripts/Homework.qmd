@@ -106,7 +106,6 @@ labs(title="Substrate Cover and Nitrogen Percentages at each Site",
 
 
 
-
 #### This code will create a plot to show the breakdown of substrate cover at the site with the most CCA cover
 
 ```{r}
