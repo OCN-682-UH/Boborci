@@ -9,6 +9,11 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
+knitr: #this is to save figures automatically 
+  opts_chunk:
+    fig.path: "../Output/" 
+    message: false 
+    warning: false 
 ---
 
 ## **Introduction:**
