@@ -9,12 +9,11 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
-
----
 knitr: 
   opts_chunk:
-      fig.path: "../Output/" ----- saves figs to output, but won't render on the html when in the YAML
-      
+      fig.path: "../Output/"
+---
+
 ## **Introduction:**
 
 This document is for Week 6 homework. It will include:
