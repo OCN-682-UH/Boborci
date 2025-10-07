@@ -6,15 +6,13 @@ date-modified: today
 format: 
   html:
     toc: true
-    theme: cerulean 
+    theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
 knitr: 
   opts_chunk:
       fig.path: "../Output/"   
 ---
-Questions for Callie: Won't render photos on html if I have them in a fig path
-Why won't the message under me cleaning my data go away
 
 ## **Introduction:**
 
@@ -82,14 +80,11 @@ filter(parameter.measured %in% c("Nitrogen","CCA Cover","Fleshy Algae Cover"))  
 #### This code will show a plot of % Algae and % CCA Cover for each of the sites 
 
 ```{r}
-
-# But also do I want to change this figure to a point plot with CCA across sites and Algae across sites and then just use the table as supplement for my nitrogen claim
-
-#| label: fig-CCA
-#| fig-cap: Figure showing percent cover of CCA, Algae, and percent Nitrogen at each site
+#| label: fig-cca
+#| fig-cap: Figure showing percent cover CCA, Algae, and percent Nitrogen at each site
 #| out-width: "75%"
 #| fig-align: "center"
-#| 
+
 PlotData %>%
   ggplot(aes(x=parameter.measured, y=mean_vals, group = parameter.measured, fill=parameter.measured))+
   geom_bar(stat="identity")+        ###Allows the axes to be what I determine
@@ -107,6 +102,9 @@ labs(title="Substrate Cover and Nitrogen Percentages at each Site",
   theme(axis.text.x = element_text(angle=45,hjust = 1))    
 
 ```
+
+
+
 
 #### This code will create a plot to show the breakdown of substrate cover at the site with the most CCA cover
 
@@ -182,8 +180,9 @@ TableData%>%
 
 
 
-## **Summary**
-As seen in @fig-CCA, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. As seen in @tbl-CCA, the only other site with that low percentage of algae cover had a higher % Nitrogen detected in _Sargassum sp_ tissue. In addition, the total substrate cover makeup was closer examined at that site in @fig-Cover. 
+## **Summary:**
+
+As seen in @fig-cca, one of the sites with the lowest percent algal cover also displayed the highest percent CCA cover. These specific values are highlighted in @tbl-CCA. As seen in @tbl-CCA, the only other site with that low percentage of algae cover had a higher % Nitrogen detected in _Sargassum sp_ tissue. In addition, the total substrate cover makeup was closer examined at that site in @fig-Cover.
 
 
 
