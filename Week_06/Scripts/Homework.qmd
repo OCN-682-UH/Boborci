@@ -20,6 +20,8 @@ This document is for Week 6 homework. It will include:
 -   Tables
 
 ```{r}
+# Load libraries
+
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -38,6 +40,7 @@ I have chosen to look at data from the **_Site Characteristics Data_** from site
 #| warning: false
 MooreaData<-read_csv(here("Week_06","Data","site.characteristics.data.csv"))    #read in the data
 DataDictionary<-read_csv(here("Week_06", "Data", "data_dictionary.csv"))
+
 #take a look at the data
 
 glimpse(MooreaData)
@@ -110,7 +113,7 @@ Plot2Data<-MooreaData %>%
   drop_na()%>%
    group_by(name, parameter.measured, values)%>%             #sort by these columns
   mutate(parameter.measured= case_when(
-    parameter.measured=="CCA.cover"~"CCA Cover",           #change parameters to match data dictionary 
+    parameter.measured=="CCA.cover"~"CCA Cover",       #change parameters to match data dictionary 
     parameter.measured=="algal.cover"~"Algae Cover",
     parameter.measured=="p.acuta.cover"~"Porites acuta Cover",
     parameter.measured=="substrate.cover"~"Other Cover",
@@ -119,7 +122,7 @@ Plot2Data<-MooreaData %>%
 filter(parameter.measured %in% c("CCA Cover","Algae Cover","Porites acuta Cover","Other Cover","Coral Cover"))%>%   #filter out the other parameters I don't want
 filter(name== "Creepy Tree")
 
-Plot2Data$parameter.measured<- factor(Plot2Data$parameter.measured, levels = c("CCA Cover","Coral Cover","Algae Cover","Porites acuta Cover","Other Cover"))
+Plot2Data$parameter.measured<- factor(Plot2Data$parameter.measured, levels = c("CCA Cover","Coral Cover","Algae Cover","Porites acuta Cover","Other Cover"))  # I want to keep the order so the colors match across figures
 ```
 
 ```{r}
@@ -151,6 +154,7 @@ labs(title="Percent Substrate Cover",
 
 
 ```{r}
+#Need to pivot the data wider so all the parameters are their own columns
 
 TableData<-MooreaData%>%
   filter(parameter.measured %in% c("N","CCA.cover", "algal.cover"))%>%
@@ -168,8 +172,8 @@ TableData<-MooreaData%>%
 #| tbl-cap: "Percent Cover of CCA and Algae and Percent Nitrogen Values per Site "
 
 TableData%>%
-  kbl(col.names=c("Site",  "% Nitrogen", "% CCA Cover", "% Algae Cover"))%>%
-   row_spec(6, bold=TRUE, color="black", background="lightpink")%>%
+  kbl(col.names=c("Site",  "% Nitrogen", "% CCA Cover", "% Algae Cover"))%>%   #Make column names pretty
+   row_spec(6, bold=TRUE, color="black", background="lightpink")%>%    #Highlight row that we want to look at 
   kable_material() 
 ```
 
