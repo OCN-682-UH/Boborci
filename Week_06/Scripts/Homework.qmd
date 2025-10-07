@@ -9,13 +9,13 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
-knitr: #this is to save figures automatically 
-  opts_chunk:
-    fig.path: "../Output/" 
     message: false 
     warning: false 
 ---
-
+knitr: #this is to save figures automatically 
+  opts_chunk:
+    fig.path: "../Output/"----- This is to save figs to output-but won't render properly with this in YAML
+    
 ## **Introduction:**
 
 This document is for Week 6 homework. It will include:
@@ -26,8 +26,6 @@ This document is for Week 6 homework. It will include:
 
 ```{r}
 # Load libraries
-#| message: false
-#| warning: false
 library(tidyverse)
 library(here)
 library(kableExtra)
@@ -40,8 +38,7 @@ library(fishualize)
 I have chosen to look at data from the **_Site Characteristics Data_** from sites in Mo'orea. I have also taken a look at the **_Data Dictionary_** to get insight about the data that were collected. These data were collected by Dr.Nyssa Silbiger.
 
 ```{r}
-#| message: false
-#| warning: false
+
 MooreaData<-read_csv(here("Week_06","Data","site.characteristics.data.csv"))    #read in the data
 DataDictionary<-read_csv(here("Week_06", "Data", "data_dictionary.csv"))
 
@@ -64,8 +61,7 @@ For this data set, I am going to take a look at the relationship between CCA cov
 ```{r}
 ##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N
 
-#| warning: false
-#| message: false
+
 PlotData<-MooreaData %>%
   drop_na()%>%
    group_by(name, parameter.measured, values)%>%          #sort by these columns

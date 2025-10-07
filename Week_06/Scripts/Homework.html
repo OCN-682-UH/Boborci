@@ -131,6 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>knitr: #this is to save figures automatically opts_chunk: fig.path: “../Output/”—– This is to save figs to output-but won’t render properly with this in YAML</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction"><strong>Introduction:</strong></h2>
 <p>This document is for Week 6 homework. It will include:</p>
@@ -141,12 +142,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fishualize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fishualize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-selection" class="level2">
@@ -185,18 +184,17 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>          <span class="co">#sort by these columns</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>     <span class="co">#mean values of each parameter per site</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,              <span class="co">#change parameters to match data dictionary </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>          <span class="co">#sort by these columns</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_vals=</span><span class="fu">mean</span>(values, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span>     <span class="co">#mean values of each parameter per site</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parameter.measured=</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"N"</span><span class="sc">~</span><span class="st">"Nitrogen"</span>,              <span class="co">#change parameters to match data dictionary </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"CCA.cover"</span><span class="sc">~</span><span class="st">"CCA Cover"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    parameter.measured<span class="sc">==</span><span class="st">"algal.cover"</span><span class="sc">~</span><span class="st">"Fleshy Algae Cover"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>parameter.measured))<span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(parameter.measured <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Nitrogen"</span>,<span class="st">"CCA Cover"</span>,<span class="st">"Fleshy Algae Cover"</span>))   <span class="co">#filter out the other parameters I don't want</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="this-code-will-show-a-plot-of-algae-and-cca-cover-for-each-of-the-sites" class="level4">
@@ -221,7 +219,7 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 <div id="fig-cca" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../Output/fig-cca-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+<img src="Homework_files/figure-html/fig-cca-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Figure showing percent cover CCA, Algae, and percent Nitrogen at each site
@@ -268,7 +266,7 @@ Figure&nbsp;1: Figure showing percent cover CCA, Algae, and percent Nitrogen at 
 <div id="fig-Cover" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../Output/fig-Cover-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+<img src="Homework_files/figure-html/fig-Cover-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Figure showing percent cover breakdown at site Creepy Tree
