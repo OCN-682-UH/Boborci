@@ -51,6 +51,8 @@ penguins%>%
   row_spec(2, bold=TRUE, color="white",background="red")%>%    #highlights specified row
   kable_styling(full_width = FALSE)      #makes it so it doesn't take up full row of space
 
+# I cannot figure out why it doesn't want to render properly, only does full length and highlight on my local host, and only does shortened length and no highlight as html
+
 ```
 
 

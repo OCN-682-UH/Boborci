@@ -173,7 +173,7 @@ TableData<-MooreaData%>%
 
 TableData%>%
   kbl(col.names=c("Site",  "% Nitrogen", "% CCA Cover", "% Algae Cover"))%>%   #Make column names pretty
-   row_spec(6, bold=TRUE, color="black", background="lightpink")%>%    #Highlight row that we want to look at 
+   row_spec(6, bold=TRUE, color="black", background="lightpink")%>%    #Highlight row that we want to look at
   kable_material() 
 ```
 
