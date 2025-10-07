@@ -9,12 +9,11 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
-  
+
 ---
 knitr: 
   opts_chunk:
-      fig.path: "../Output/" -how to save to output- won't pull up figures on html when in YAML
-      
+      fig.path: "../Output/" ----- saves figs to output, but won't render on the html when in the YAML
       
 ## **Introduction:**
 
@@ -61,9 +60,9 @@ For this data set, I am going to take a look at the relationship between CCA cov
 
 ```{r}
 ##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N
-#| message: false
-#| warning: false
 
+#| warning: false
+#| message: false
 PlotData<-MooreaData %>%
   drop_na()%>%
    group_by(name, parameter.measured, values)%>%          #sort by these columns

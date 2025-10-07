@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>knitr: opts_chunk: fig.path: “../Output/” -how to save to output- won’t pull up figures on html when in YAML</p>
+<p>knitr: opts_chunk: fig.path: “../Output/” —– saves figs to output, but won’t render on the html when in the YAML</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction"><strong>Introduction:</strong></h2>
 <p>This document is for Week 6 homework. It will include:</p>
@@ -181,9 +181,9 @@ $ values             &lt;dbl&gt; 1674.241, 1193.230, 2647.890, 1533.245, 2114.01
 <h4 class="anchored" data-anchor-id="this-code-chunk-is-going-to-extract-the-data-we-want-to-work-with-from-the-larger-dataset.">This code chunk is going to extract the data we want to work with from the larger dataset.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Need to filter out just the data we want: Site name, CCA cover, Algal Cover, %N</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>PlotData<span class="ot">&lt;-</span>MooreaData <span class="sc">%&gt;%</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(name, parameter.measured, values)<span class="sc">%&gt;%</span>          <span class="co">#sort by these columns</span></span>
