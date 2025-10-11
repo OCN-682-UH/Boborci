@@ -1,0 +1,212 @@
+---
+title: "Week 7 Homework"
+author: "Madigan Boborci"
+date: "2025-10-7"
+date-modified: today
+format:
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+    message: false 
+    warning: false 
+---
+## Introduction
+  This Quarto doc is to do the homework: making a map with some **Tiny Tuesday** data.
+  
+##### First I need to load my libraries
+  
+```{r}
+#load libraries
+
+#| warning: false
+#| messgae: false
+library(tidyverse)
+library(here)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(ggmap)
+library(tidytuesdayR)
+library(emojifont)
+library(ggspatial)
+
+```
+##### Then I can read in the data I chose: **BIGFOOT 👣**
+```{r}
+#Read in data 
+#| warning: false
+#| messgae: false
+
+tuesdata <- tidytuesdayR::tt_load('2022-09-13')
+tuesdata <- tidytuesdayR::tt_load(2022, week = 37)
+
+bigfoot <- tuesdata$bigfoot%>%
+write_csv((here("Week_07", "Data", "bigfoot.csv"))   )
+```
+
+
+```{r}
+#Look at data
+View(bigfoot)
+```
+
+# Data Analysis
+  I want to see where Bigfoot sightings have occurred by county in Illinois, my home state. 
+  I need to  
+-   make a map of Illinois 
+-   change the data so the column county matches  
+-   join the data  
+-   overlay the sightings as a point layer? or heat map?  
+-   make map pretty  
+  
+##### This chunk is for figuring out how to isolate and map Illinois
+```{r}
+#|message: false
+#|warning: false
+
+#Actually want to look at just Illinois
+states<-map_data("state")
+head(states)
+county<-map_data("county")
+head(county)
+
+illinois<-county%>%
+  filter(region=="illinois")
+```
+##### Now map it
+```{r}
+ggplot()+
+  geom_polygon(data=illinois, aes(x=long,y=lat, group=group),fill="darkgrey",color="lightgrey")+
+  guides(fill=FALSE)+
+  coord_map()+
+  theme_void()
+
+```
+##### Actually want to emphasize my own county
+```{r}
+kane<-county%>%
+  filter(region=="illinois")%>%     #filter for Illinois and Kane County
+  filter(subregion == "kane")
+
+#map just the county to check
+ggplot()+
+  geom_polygon(data=kane, aes(x=long,y=lat, group=group))+
+  guides(fill=FALSE)+
+  coord_map()+
+  theme_void()
+
+```
+
+##### Include highlighted county data on Illinois map
+```{r}
+ggplot()+
+  geom_polygon(data=illinois, aes(x=long,y=lat,group=group,),fill = "linen", color="lightgrey")+
+  geom_polygon(data=kane, aes(x=long,y=lat,group=group),fill="yellow")+
+ coord_map()+
+  theme_void()
+```
+
+
+##### Figure out how to fix up this bigfoot data
+```{r}
+#only care about state and county, lat and long
+
+bigfoot_clean<-bigfoot%>%
+  drop_na()%>%
+  select(state,county,latitude,longitude)%>%   #select data wee need
+  filter(state=="Illinois")%>%
+  filter(longitude!="-86.13757")    #got rid of random typo longitude that made a floating point
+
+```
+
+##### Find data for Illinois
+```{r}
+head(county)
+head(bigfoot_clean) #using these to double check the column names 
+
+Bigfoot_illinois<-bigfoot_clean%>%
+  rename(region=state, subregion=county)%>%  #change column names to match
+  left_join(county, bigfoot_clean, by=c("region"))%>%
+  write_csv(here("Week_07", "Output", "Bigfoot_illinois.csv"))   
+
+#View(Bigfoot_illinois)
+
+```
+
+
+
+
+
+##### Now I can put the Bigfoot sightings data on top of the map I made
+
+```{r}
+ggplot()+
+  geom_polygon(data=illinois, aes(x=long,y=lat,group=group,),fill = "linen", color="lightgrey")+
+  geom_polygon(data=kane, aes(x=long,y=lat,group=group),fill="yellow")+
+  geom_point(data=Bigfoot_illinois,
+             aes(x=longitude, y=latitude, color=subregion.x))+    #colored points by county 
+  guides(color="none")+
+ coord_map()+
+  theme_void()
+
+
+```
+
+##### I decided I wanted to include my hometown as well, so this chunk explores how to add another point to the map.  
+```{r}
+#Now an attempt to add a fun point where I grew up
+geocode("Saint Charles, IL")
+#long= -88.30869 and lat= 41.91419
+
+StCharles<-data.frame(long= -88.30869,  lat=41.91419, name="home") #Make a point on my hometown
+```
+
+
+### All together now
+```{r}
+#Same code as above to see if adding this point works
+ggplot()+
+  geom_polygon(data=illinois, aes(x=long,y=lat,group=group,),fill = "linen", color="lightgrey")+
+  geom_polygon(data=kane, aes(x=long,y=lat,group=group),fill="yellow")+
+  geom_point(data=Bigfoot_illinois,
+             aes(x=longitude, y=latitude, color=subregion.x))+
+  guides(color="none")+
+  geom_point(data=StCharles,aes(x=long, y=lat),shape="triangle", color="red",fill="red", size=3)+
+ coord_map()+
+  theme_void()
+
+```
+
+##### Create final map
+```{r}
+#| label: fig-bigfoot     #use tbl to label table
+#| fig-cap: "Bigfoot sightings across counties in Illinois"
+ggplot()+
+  geom_polygon(data=illinois, aes(x=long,y=lat,group=group,),fill = "linen", color="lightgrey")+
+  geom_polygon(data=kane, aes(x=long,y=lat,group=group),fill="yellow")+
+  geom_point(data=Bigfoot_illinois,
+             aes(x=longitude, y=latitude, color=subregion.x))+
+  guides(color="none")+
+  geom_point(data=StCharles,aes(x=long, y=lat),shape="triangle", color="red",fill="red", size=3)+
+ coord_map()+
+  theme_void()+
+  scale_color_viridis_d()+
+  annotation_scale(bar_cols=c("black","white"),
+                   location="bl")+ #puts scale bar in bottom left
+  annotation_north_arrow(location="tl")+ #puts direction arrow top left
+  coord_sf(crs=4326) #GPS coordinate reference system- this is typical but depends on gps
+ggsave(here("Week_07","Output","Bigfoot_IL.pdf"))
+
+```
+  
+## Summary:
+This map, @fig-bigfoot shows recorded Bigfoot Sightings in Illinois, and how close my hometown is to them. It includes a north arrow and a scale bar as well.  
+
+  
+
+
+
+
+

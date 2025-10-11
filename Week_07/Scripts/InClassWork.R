@@ -9,6 +9,7 @@ library(here)
 library(maps)
 library(mapdata)
 library(mapproj)
+library(ggmap)
 
 # Read in data
   popdata<-read.csv(here("Week_07","Data","CAPopdata.csv"))  # CA population by county data
@@ -89,7 +90,7 @@ color="black")+
   scale_fill_gradient(trans="log10")    #transform to make colors better
 
 
-head(stars) # nnumber sea stars per m2 in CA
+head(stars) # number sea stars per m2 in CA
 
 #add point layer of star data in
 
@@ -117,7 +118,6 @@ ggplot()+
   scale_fill_gradient(trans="log10")+
   labs(size = "# stars/m2")     #better legend
 ggsave(here("Week_07","Output","CApop.pdf"))
-
 
 
 
