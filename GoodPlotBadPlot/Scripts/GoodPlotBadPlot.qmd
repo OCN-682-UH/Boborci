@@ -11,7 +11,7 @@ format:
     warning: false 
 ---
 # Intro: 
-## This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one. 
+This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one. 
 
 # Libraries:
 ```{r}
@@ -71,11 +71,13 @@ victim14$Proven.victims<-as.integer(victim14$Proven.victims) #saw in head that o
 serial_killers <- rbind(highest_victim, victim30, victim14, victim5)
 View(serial_killers)
 ```
-## Now that we have data to work with, we can make some plots.
+Now that we have data to work with, we can make some plots.
 
 
 # Good Plot!
 This plot is going to be an attempt to be a beautiful visualization of the data.
+
+The first chunk will clean up some of the data
 ```{r} 
 #GOOD PLOT
 #Now we have data, figure out what to do with it 
@@ -94,6 +96,7 @@ View(killers_clean)
 
 ```
 
+Then we can prep that data specifically for the plot.
 ```{r}
 Killers_countries <- killers_clean %>%
   
@@ -108,7 +111,7 @@ arrange(desc(Killer_Count)) %>%             #arrange in descending order for plo
 View(Killers_countries)
 ```
  
-
+Then this chunk creates the plot.
 ```{r}
 #bar plot of amt of serial killers per country (top 10)
 
@@ -130,6 +133,8 @@ Killer_Plot
 
 OR 
 
+
+This chuk preps the data we need to make the plot.
 ```{r}
 #get data for all 10 countries with the most killers
 top_10_countries<- killers_clean %>%
@@ -145,6 +150,7 @@ Killer_victims <- killers_clean %>%
   arrange(desc(Killer_Count))   #arrange in order for plotting
 ```
 
+This chunk creates the plot
 ```{r}
 Killer_BoxPlot <- Killer_victims%>%
   ggplot(aes(x = Country, y = Proven.victims, fill=Killer_Count)) +
@@ -170,17 +176,18 @@ Killer_BoxPlot
 ```
 
 
-
+This chunk stitches together the two plots I have already made, so they can be presented together. 
 ```{r}
 #patched together? necessary?
 Killer_Plot/Killer_BoxPlot
 ```
 
 This plot is considered a good plot because it follows best data practices as defined in _The American Statistician-Data Organization in Spreadsheets_ by Broman and Woo. These practices include **Good Naming Conventions**, **No Empty Cells**, and **One Item per Cell** and **Save Data as Plain Text Files**. I also created a **Data Dictionary**, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are
-  - Clean and visible plot and axis titles
-  - No unnecessary colors 
-  - Clear legend if necessary
-  - Decluttered
+-   Clean and visible plot and axis titless 
+-   No unnecessary colors   
+-   Clear legend if necessary  
+-   Decluttered  
+
   
 # Bad Plot 🤢
 Now I will make an atrocity, potentially more frightening than this dataset's contents.
