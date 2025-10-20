@@ -87,7 +87,7 @@ filter(parameter.measured %in% c("Nitrogen","CCA Cover","Fleshy Algae Cover"))  
 
 PlotData %>%
   ggplot(aes(x=parameter.measured, y=mean_vals, group = parameter.measured, fill=parameter.measured))+
-  geom_bar(stat="identity")+        ###Allows the axes to be what I determine
+  geom_bar(stat="identity")+  ###Allows the axes to be what I determine
   facet_wrap(~name)+                 ### Facet the graphs by site, shows means of each parameter for each
   scale_fill_fish_d(option = "Scarus_quoyi")+      ###Color scheme from fishualize package
 labs(title="Substrate Cover and Nitrogen Percentages at each Site",                  

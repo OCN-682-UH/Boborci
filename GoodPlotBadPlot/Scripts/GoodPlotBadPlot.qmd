@@ -1,0 +1,220 @@
+---
+title: "GoodPlot/BadPlot"
+author: "Madigan Boborci"
+format: 
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+    message: false 
+    warning: false 
+---
+# Intro: 
+## This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one. 
+
+# Libraries:
+```{r}
+#load libraries
+#loaded a bajillion libraries
+
+#| warning: false
+#| messgae: false
+
+library(tidyverse)
+library(here)
+library(ggmap)
+library(tidytuesdayR)
+library(emojifont)
+library(patchwork)
+library(ggrepel)
+library(gganimate)
+library(magick)
+library(devout)
+library(devoutrgl)
+library(triangular)
+library(snowcrash)
+library(cryogenic)
+library(ggrgl)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(ggspatial)
+library(sf)
+library(rnaturalearthdata)
+library(rnaturalearth)
+library(plot3D)
+library(RColorBrewer)
+
+```
+# Data:
+
+```{r}
+#Read in the data
+
+highest_victim<-read.csv(here("GoodPlotBadPlot", "Data","SerialKiller", "Highest_victim_count.csv"))
+victim30<-read.csv(here("GoodPlotBadPlot", "Data", "SerialKiller","15_to_30_victim_count.csv"))
+victim14<-read.csv(here("GoodPlotBadPlot", "Data","SerialKiller", "5_to_14_victim_count.csv"))
+victim5<-read.csv(here("GoodPlotBadPlot", "Data", "SerialKiller", "Lessthan_5_victim_count.csv"))
+
+
+#take a gander at the data
+head(highest_victim)
+head(victim30)
+head(victim14)
+head(victim5)
+
+victim14$Proven.victims<-as.integer(victim14$Proven.victims) #saw in head that one column was a character rather than an integer like the rest of the datasets
+
+
+#can't use join because trying to merge vertically not horizontally
+serial_killers <- rbind(highest_victim, victim30, victim14, victim5)
+View(serial_killers)
+```
+## Now that we have data to work with, we can make some plots.
+
+
+# Good Plot!
+This plot is going to be an attempt to be a beautiful visualization of the data.
+```{r} 
+#GOOD PLOT
+#Now we have data, figure out what to do with it 
+#need to split years active into start and end years, drop na's etc
+
+killers_clean<-serial_killers%>%
+  separate(
+    col = Years.active,  # The column to split
+    into = c("StartYear", "EndYear"), # Names of the new columns
+    sep = " to ",          
+    convert = TRUE)%>%
+    drop_na()%>%
+  write_csv(here("GoodPlotBadPlot", "Output", "killers_clean.csv"))
+
+View(killers_clean)
+
+```
+
+```{r}
+Killers_countries <- killers_clean %>%
+  
+  filter(!grepl("\n", Country)) %>%   #drops all values that were listed as multiple countries
+  group_by(Country) %>%
+  mutate(Killer_Count = n())%>%     #make column for number of ind killers per country
+distinct(Country, Killer_Count) %>% #makes mini dataset with just country and # killers
+  slice_max(Killer_Count, n = 10, with_ties = FALSE)%>%     #Take top 10 highest count of killers 
+arrange(desc(Killer_Count)) %>%             #arrange in descending order for plot
+  head(10) 
+
+View(Killers_countries)
+```
+ 
+
+```{r}
+#bar plot of amt of serial killers per country (top 10)
+
+Killer_Plot <- Killers_countries %>%
+  ggplot(aes(x = reorder(Country, Killer_Count), y = Killer_Count)) +   #make countries go in order of no. of killers
+  geom_col(fill = "darkred", color = "black",width=0.5) +
+  coord_flip() +    #I like it visualized with flipped axes
+  labs(
+    title = "Countries with the Most Serial Killers",
+    x = "",
+    y = "Number of Killers",
+    subtitle="Serial Killers from 1900 to Present") +
+  theme_minimal() +
+    theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"))
+
+Killer_Plot
+```
+
+OR 
+
+```{r}
+#get data for all 10 countries with the most killers
+top_10_countries<- killers_clean %>%
+  filter(!grepl("\n", Country)) %>%   #remove values having more than 1 country listed
+  count(Country) %>%                   
+  slice_max(n, n = 10, with_ties = FALSE) %>%
+  pull(Country) # Extracts a vector of the top 10 country names   
+
+Killer_victims <- killers_clean %>%
+  filter(Country %in% top_10_countries) %>%   #Uses the countries we selected above
+  group_by(Country) %>%
+  mutate(Killer_Count = n())%>% #makes a row for killer count but also keeps the rest of the info
+  arrange(desc(Killer_Count))   #arrange in order for plotting
+```
+
+```{r}
+Killer_BoxPlot <- Killer_victims%>%
+  ggplot(aes(x = Country, y = Proven.victims, fill=Killer_Count)) +
+  geom_boxplot(color = "black",alpha=0.7) +
+  scale_fill_gradientn(colors = brewer.pal(9, "Reds"))+   #choosing red for mt legend scale bar
+  labs(
+    title ="Proven Victim Count by Countries with the Highest Number of Serial Killers ",
+    x = "",
+    y = "Number of victims",
+    caption="Dataset from Serial Killers Data on Kaggle",
+    fill="No. of Serial Killers") +
+ 
+    theme(
+    plot.title = element_text(hjust=.25, face = "bold"))+
+  theme_bw()+                                      
+  theme(axis.title=element_text(size=10))+
+  theme(plot.title=element_text(size=12,
+                                face="bold"))+
+  theme(axis.text.x = element_text(angle=45,hjust = 1))  
+
+Killer_BoxPlot
+
+```
+
+
+
+```{r}
+#patched together? necessary?
+Killer_Plot/Killer_BoxPlot
+```
+
+This plot is considered a good plot because it follows best data practices as defined in _The American Statistician-Data Organization in Spreadsheets_ by Broman and Woo. These practices include **Good Naming Conventions**, **No Empty Cells**, and **One Item per Cell** and **Save Data as Plain Text Files**. I also created a **Data Dictionary**, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are
+  - Clean and visible plot and axis titles
+  - No unnecessary colors 
+  - Clear legend if necessary
+  - Decluttered
+  
+# Bad Plot 🤢
+Now I will make an atrocity, potentially more frightening than this dataset's contents.
+I apologize for what you are about to see.
+
+```{r}
+#Now attempting a bad plot
+Killers_bad<-killers_clean %>%
+  filter(!grepl("\n", Country)) %>%    #removing values with multipple countries
+  group_by(Country) %>%              
+  mutate(Killer_Count = n())%>%       #add column for serial killers per country
+  mutate(StartYear = as.numeric(as.character(StartYear)))%>%    #needed all variables to be numbers
+  mutate(EndYear=as.numeric(as.character(EndYear)))
+
+
+
+with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all axes
+  labels = rownames(Killers_bad), colvar = Proven.victims,        #set legend
+  col = heat.colors(100), theta = 60, phi = 20,                   #choose legend colors
+  xlab = "Year Start", ylab = "Killer Count", zlab = "Year End",  #labels for axes
+  main = "Serial Killers Worldwide 🔪🩸", cex = 0.6,                   #Title
+  bty = "u", ticktype = "detailed", d = 2,                        
+  clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
+col.panel="blue",col.grid="black"))                             #commit atrocity
+
+```
+There are many things that makes this plot a disgrace. First of all, it is **_3D_**. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren't all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There's just no reason for it to be bright blue. It doesn't contribute positively to the aestheitcs, it doesn't correlate to data, and it's just distracting. 
+
+
+
+
+
+
+
+
+
+

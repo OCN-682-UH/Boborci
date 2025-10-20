@@ -1,0 +1,115 @@
+---
+title: "GoodPlot/BadPlot2"
+author: "Madigan Boborci"
+format: html
+---
+
+```{r}
+#load libraries
+
+#| warning: false
+#| messgae: false
+
+library(tidyverse)
+library(here)
+library(ggmap)
+library(tidytuesdayR)
+library(emojifont)
+library(patchwork)
+library(ggrepel)
+library(gganimate)
+library(magick)
+library(devout)
+library(devoutrgl)
+library(triangular)
+library(snowcrash)
+library(cryogenic)
+library(ggrgl)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(ggspatial)
+library(sf)
+library(rnaturalearthdata)
+library(rnaturalearth)
+
+```
+
+```{r}
+
+#FRIENDS set
+
+friends <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-08/friends.csv')
+
+friends_emotions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-08/friends_emotions.csv')
+friends_info <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-08/friends_info.csv')
+```
+```{r}
+View(friends)
+View(friends_emotions)
+View(friends_info)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+themes<-read.csv(here("GoodPlot", "Data", "Lego","themes.csv"))
+sets<-read.csv(here("GoodPlot", "Data", "Lego","sets.csv"))
+parts<-read.csv(here("GoodPlot", "Data", "Lego","parts.csv"))
+part_categories<-read.csv(here("GoodPlot", "Data", "Lego","part_categories.csv"))
+inventory_sets<-read.csv(here("GoodPlot", "Data","Lego", "inventory_sets.csv"))
+inventory_parts<-read.csv(here("GoodPlot", "Data", "Lego","inventory_parts.csv"))
+inventories<-read.csv(here("GoodPlot", "Data", "Lego","inventories.csv"))
+colors<-read.csv(here("GoodPlot", "Data", "Lego","colors.csv"))
+
+View(themes)
+View(sets)
+View(parts)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
