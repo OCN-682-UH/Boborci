@@ -59,10 +59,10 @@ victim5<-read.csv(here("GoodPlotBadPlot", "Data", "SerialKiller", "Lessthan_5_vi
 
 
 #take a gander at the data
-head(highest_victim)
-head(victim30)
-head(victim14)
-head(victim5)
+#head(highest_victim)
+#head(victim30)
+#head(victim14)
+#head(victim5)
 
 victim14$Proven.victims<-as.integer(victim14$Proven.victims) #saw in head that one column was a character rather than an integer like the rest of the datasets
 
