@@ -7,19 +7,19 @@ format:
     theme: cerulean
     mainfont: "Georgia"
     prefer-html: true
-    message: false 
-    warning: false 
+     
 ---
 # Intro: 
 This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one. 
 
 # Libraries 📚:
 ```{r}
+#| warning: false
+#| message: false
+
+
 #load libraries
 #loaded a bajillion libraries
-
-#| warning: false
-#| messgae: false
 
 library(tidyverse)
 library(here)
@@ -42,6 +42,9 @@ library(ragg)
 # Data 🔢:
 
 ```{r}
+#| warning: false
+#| message: false
+
 #Read in the data
 
 highest_victim<-read.csv(here("GoodPlotBadPlot", "Data","SerialKiller", "Highest_victim_count.csv"))
@@ -71,6 +74,9 @@ This plot is going to be an attempt to be a beautiful visualization of the data.
 
 The first chunk will clean up some of the data
 ```{r} 
+#| warning: false
+#| message: false
+
 #GOOD PLOT
 #Now we have data, figure out what to do with it 
 #need to split years active into start and end years, drop na's etc
@@ -121,7 +127,7 @@ Killer_Plot <- Killers_countries %>%
   theme_minimal() +
     theme(
     plot.title = element_text(hjust = 0.5, face = "bold"))
-ggsave(here("GoodPlotBadPlot","Output","GoodPlot_A.pdf"))
+  
 
 Killer_Plot
 ```
@@ -150,9 +156,10 @@ This chunk creates the plot- the bar graph above becomes a visualization of the 
 Killer_BoxPlot <- Killer_victims%>%
   ggplot(aes(x = reorder(Country, -Killer_Count), y = Proven.victims, fill= Killer_Count)) +
   geom_boxplot(color = "black",alpha=0.7) +
-  scale_fill_gradientn(colors = brewer.pal(9, "Reds"))+   #choosing red for mt legend scale bar
+  scale_fill_gradientn(colors = brewer.pal(9, "Reds"))+   #choosing red for my legend scale bar
   labs(
-    title ="Proven Victim Count by Countries with the Highest Number of Serial Killers ",
+    title ="Proven Victim Count by Country",
+    subtitle="Countries with the most Serial Killers",
     x = "",
     y = "Number of victims",
     caption="Dataset from Serial Killers Data on Kaggle",
@@ -160,24 +167,28 @@ Killer_BoxPlot <- Killer_victims%>%
  
     theme(
     plot.title = element_text(hjust=.25, face = "bold"))+
-  theme_bw()+                                      
+  theme_bw()+ 
+  theme(legend.title = element_text(size = 10))+
   theme(axis.title=element_text(size=10))+
-  theme(plot.title=element_text(size=12,
-                                face="bold"))+
-  theme(axis.text.x = element_text(angle=45,hjust = 1))  
-ggsave(here("GoodPlotBadPlot","Output","GoodPlot_B.pdf"))
+  theme(plot.title=element_text(size=14,
+                                face="bold",
+                                hjust=0))+
+  theme(axis.text.x = element_text(angle=45,hjust = 1)) 
+
+
 Killer_BoxPlot
 
 ```
 
 
 This chunk stitches together the two plots I have already made, so they can be presented together. 
-```{r}
+```{r fig.cap="GoodPlot", fig.width=10,fig.height=7}
+#|message: false
+
 #patched together? necessary?
-Killer_Plot/Killer_BoxPlot +
- plot_layout(heights = c(5,5))+
-  plot_annotation(tag_levels='A')
-ggsave(here("GoodPlotBadPlot","Output","GoodPlot_AB.pdf"))
+(Killer_Plot/Killer_BoxPlot) +
+  plot_annotation(tag_levels='A')  #putting labels on each subplot
+ggsave(here("GoodPlotBadPlot","Output","GoodPlot_AB.png"),width=7,height=5)
 ```
 
 This plot is considered a good plot because it follows best data practices as defined in _The American Statistician-Data Organization in Spreadsheets_ by Broman and Woo. These practices include **Good Naming Conventions**, **No Empty Cells**, and **One Item per Cell** and **Save Data as Plain Text Files**. I also created a **Data Dictionary**, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are
@@ -193,8 +204,17 @@ This plot is considered a good plot because it follows best data practices as de
 Now I will make an atrocity, potentially more frightening than this dataset's contents.
 I apologize for what you are about to see.
 
-```{r}
+```{r fig.cap="BadPlot", message=FALSE, warning=FALSE}
+
+
 #Now attempting a bad plot
+
+#This is how to save- was put in after plot was created but needed to run first
+#png(filename = "/Users/madiganboborci/Desktop/Repositories/Boborci/GoodPlotBadPlot/Output/BadPlot.png", 
+   # width = 800, 
+    #height = 600, 
+   # res = 100) 
+
 Killers_bad<-killers_clean %>%
   filter(!grepl("\n", Country)) %>%    #removing values with multiple countries
   group_by(Country) %>%              
@@ -213,10 +233,11 @@ with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all ax
   clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
 col.panel="blue",col.grid="black"))                             #commit atrocity
 
-ggsave(here("GoodPlotBadPlot","Output","BadPlot.pdf"))
+#dev.off() also for saving plot
 
 ```
 There are many things that makes this plot a disgrace. First of all, it is **_3D_**. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren't all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There's just no reason for it to be bright blue. It doesn't contribute positively to the aestheitcs, it doesn't correlate to data, and it's just distracting. 
+
 
 
 
