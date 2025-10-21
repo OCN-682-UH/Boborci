@@ -66,18 +66,12 @@ victim14$Proven.victims<-as.integer(victim14$Proven.victims) #saw in head that o
 serial_killers <- rbind(highest_victim, victim30, victim14, victim5)
 View(serial_killers)
 ```
-Now that we have data to work with, we can make some plots.
+This chunk will clean up some of the data
 
-
-# Good Plot! 😇
-This plot is going to be an attempt to be a beautiful visualization of the data.
-
-The first chunk will clean up some of the data
 ```{r} 
 #| warning: false
 #| message: false
 
-#GOOD PLOT
 #Now we have data, figure out what to do with it 
 #need to split years active into start and end years, drop na's etc
 
@@ -94,7 +88,59 @@ View(killers_clean)
 
 ```
 
-Then we can prep that data specifically for the plot.
+Now that we have data to work with, we can make some plots.
+
+
+
+
+# Bad Plot 🤢
+Now I will make an atrocity, potentially more frightening than this dataset's contents.
+I apologize for what you are about to see.
+
+```{r fig.cap="BadPlot", message=FALSE, warning=FALSE}
+
+
+#Now attempting a bad plot
+
+#This is how to save- was put in after plot was created but needed to run first
+#png(filename = "/Users/madiganboborci/Desktop/Repositories/Boborci/GoodPlotBadPlot/Output/BadPlot.png", 
+   # width = 800, 
+    #height = 600, 
+   # res = 100) 
+
+Killers_bad<-killers_clean %>%
+  filter(!grepl("\n", Country)) %>%    #removing values with multiple countries
+  group_by(Country) %>%              
+  mutate(Killer_Count = n())%>%       #add column for serial killers per country
+  mutate(StartYear = as.numeric(as.character(StartYear)))%>%    #needed all variables to be numbers
+  mutate(EndYear=as.numeric(as.character(EndYear)))
+
+
+
+with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all axes
+  labels = rownames(Killers_bad), colvar = Proven.victims,        #set legend
+  col = heat.colors(100), theta = 60, phi = 20,                   #choose legend colors
+  xlab = "Year Start", ylab = "Killer Count", zlab = "Year End",  #labels for axes
+  main = "Serial Killers Worldwide", cex = 0.6,                   #Title
+  bty = "u", ticktype = "detailed", d = 2,                        
+  clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
+col.panel="blue",col.grid="black"))                             #commit atrocity
+
+#dev.off() also for saving plot
+
+```
+
+
+There are many things that makes this plot a disgrace. First of all, it is **_3D_**. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren't all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There's just no reason for it to be bright blue. It doesn't contribute positively to the aestheitcs, it doesn't correlate to data, and it's just distracting. 
+
+
+
+
+# Good Plot! 😇
+This plot is going to be an attempt to be a beautiful visualization of the data.
+
+
+Prep the data specifically for the plot.
 ```{r}
 Killers_countries <- killers_clean %>%
   
@@ -196,47 +242,11 @@ This plot is considered a good plot because it follows best data practices as de
 - Clean and visible plot and axis titles 
 - No unnecessary colors   
 - Clear legend if necessary  
-- Decluttered  
-
-
-  
-# Bad Plot 🤢
-Now I will make an atrocity, potentially more frightening than this dataset's contents.
-I apologize for what you are about to see.
-
-```{r fig.cap="BadPlot", message=FALSE, warning=FALSE}
-
-
-#Now attempting a bad plot
-
-#This is how to save- was put in after plot was created but needed to run first
-#png(filename = "/Users/madiganboborci/Desktop/Repositories/Boborci/GoodPlotBadPlot/Output/BadPlot.png", 
-   # width = 800, 
-    #height = 600, 
-   # res = 100) 
-
-Killers_bad<-killers_clean %>%
-  filter(!grepl("\n", Country)) %>%    #removing values with multiple countries
-  group_by(Country) %>%              
-  mutate(Killer_Count = n())%>%       #add column for serial killers per country
-  mutate(StartYear = as.numeric(as.character(StartYear)))%>%    #needed all variables to be numbers
-  mutate(EndYear=as.numeric(as.character(EndYear)))
+- Decluttered
 
 
 
-with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all axes
-  labels = rownames(Killers_bad), colvar = Proven.victims,        #set legend
-  col = heat.colors(100), theta = 60, phi = 20,                   #choose legend colors
-  xlab = "Year Start", ylab = "Killer Count", zlab = "Year End",  #labels for axes
-  main = "Serial Killers Worldwide", cex = 0.6,                   #Title
-  bty = "u", ticktype = "detailed", d = 2,                        
-  clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
-col.panel="blue",col.grid="black"))                             #commit atrocity
 
-#dev.off() also for saving plot
-
-```
-There are many things that makes this plot a disgrace. First of all, it is **_3D_**. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren't all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There's just no reason for it to be bright blue. It doesn't contribute positively to the aestheitcs, it doesn't correlate to data, and it's just distracting. 
 
 
 
