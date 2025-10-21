@@ -121,6 +121,7 @@ Killer_Plot <- Killers_countries %>%
   theme_minimal() +
     theme(
     plot.title = element_text(hjust = 0.5, face = "bold"))
+ggsave(here("GoodPlotBadPlot","Output","GoodPlot_A.pdf"))
 
 Killer_Plot
 ```
@@ -164,7 +165,7 @@ Killer_BoxPlot <- Killer_victims%>%
   theme(plot.title=element_text(size=12,
                                 face="bold"))+
   theme(axis.text.x = element_text(angle=45,hjust = 1))  
-
+ggsave(here("GoodPlotBadPlot","Output","GoodPlot_B.pdf"))
 Killer_BoxPlot
 
 ```
@@ -174,7 +175,9 @@ This chunk stitches together the two plots I have already made, so they can be p
 ```{r}
 #patched together? necessary?
 Killer_Plot/Killer_BoxPlot +
- plot_layout(heights = c(5,5)) # The spacer is half the width of the plots
+ plot_layout(heights = c(5,5))+
+  plot_annotation(tag_levels='A')
+ggsave(here("GoodPlotBadPlot","Output","GoodPlot_AB.pdf"))
 ```
 
 This plot is considered a good plot because it follows best data practices as defined in _The American Statistician-Data Organization in Spreadsheets_ by Broman and Woo. These practices include **Good Naming Conventions**, **No Empty Cells**, and **One Item per Cell** and **Save Data as Plain Text Files**. I also created a **Data Dictionary**, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are
@@ -209,6 +212,8 @@ with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all ax
   bty = "u", ticktype = "detailed", d = 2,                        
   clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
 col.panel="blue",col.grid="black"))                             #commit atrocity
+
+ggsave(here("GoodPlotBadPlot","Output","BadPlot.pdf"))
 
 ```
 There are many things that makes this plot a disgrace. First of all, it is **_3D_**. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren't all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There's just no reason for it to be bright blue. It doesn't contribute positively to the aestheitcs, it doesn't correlate to data, and it's just distracting. 

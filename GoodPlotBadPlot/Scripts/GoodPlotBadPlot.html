@@ -226,8 +226,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>Killer_Plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"GoodPlotBadPlot"</span>,<span class="st">"Output"</span>,<span class="st">"GoodPlot_A.pdf"</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>Killer_Plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -271,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                                <span class="at">face=</span><span class="st">"bold"</span>))<span class="sc">+</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>,<span class="at">hjust =</span> <span class="dv">1</span>))  </span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"GoodPlotBadPlot"</span>,<span class="st">"Output"</span>,<span class="st">"GoodPlot_B.pdf"</span>))</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>Killer_BoxPlot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -285,7 +286,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#patched together? necessary?</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Killer_Plot<span class="sc">/</span>Killer_BoxPlot <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>)) <span class="co"># The spacer is half the width of the plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>))<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels=</span><span class="st">'A'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -293,6 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"GoodPlotBadPlot"</span>,<span class="st">"Output"</span>,<span class="st">"GoodPlot_AB.pdf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This plot is considered a good plot because it follows best data practices as defined in <em>The American Statistician-Data Organization in Spreadsheets</em> by Broman and Woo. These practices include <strong>Good Naming Conventions</strong>, <strong>No Empty Cells</strong>, and <strong>One Item per Cell</strong> and <strong>Save Data as Plain Text Files</strong>. I also created a <strong>Data Dictionary</strong>, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are</p>
 <ul>
@@ -308,24 +311,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Bad Plot 🤢</h1>
 <p>Now I will make an atrocity, potentially more frightening than this dataset’s contents. I apologize for what you are about to see.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now attempting a bad plot</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Killers_bad<span class="ot">&lt;-</span>killers_clean <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, Country)) <span class="sc">%&gt;%</span>    <span class="co">#removing values with multiple countries</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span>              </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Killer_Count =</span> <span class="fu">n</span>())<span class="sc">%&gt;%</span>       <span class="co">#add column for serial killers per country</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">StartYear =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(StartYear)))<span class="sc">%&gt;%</span>    <span class="co">#needed all variables to be numbers</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EndYear=</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(EndYear)))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(Killers_bad, <span class="fu">text3D</span>(StartYear, Killer_Count, EndYear,        <span class="co">#define all axes</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">rownames</span>(Killers_bad), <span class="at">colvar =</span> Proven.victims,        <span class="co">#set legend</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">heat.colors</span>(<span class="dv">100</span>), <span class="at">theta =</span> <span class="dv">60</span>, <span class="at">phi =</span> <span class="dv">20</span>,                   <span class="co">#choose legend colors</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year Start"</span>, <span class="at">ylab =</span> <span class="st">"Killer Count"</span>, <span class="at">zlab =</span> <span class="st">"Year End"</span>,  <span class="co">#labels for axes</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Serial Killers Worldwide"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,                   <span class="co">#Title</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">bty =</span> <span class="st">"u"</span>, <span class="at">ticktype =</span> <span class="st">"detailed"</span>, <span class="at">d =</span> <span class="dv">2</span>,                        </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">clab =</span> <span class="fu">c</span>(<span class="st">"Proven Victims"</span>), <span class="at">adj =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">6</span>,              <span class="co">#Label for legend</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="at">col.panel=</span><span class="st">"blue"</span>,<span class="at">col.grid=</span><span class="st">"black"</span>))                             <span class="co">#commit atrocity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now attempting a bad plot</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Killers_bad<span class="ot">&lt;-</span>killers_clean <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, Country)) <span class="sc">%&gt;%</span>    <span class="co">#removing values with multiple countries</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span>              </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Killer_Count =</span> <span class="fu">n</span>())<span class="sc">%&gt;%</span>       <span class="co">#add column for serial killers per country</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">StartYear =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(StartYear)))<span class="sc">%&gt;%</span>    <span class="co">#needed all variables to be numbers</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EndYear=</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(EndYear)))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(Killers_bad, <span class="fu">text3D</span>(StartYear, Killer_Count, EndYear,        <span class="co">#define all axes</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">rownames</span>(Killers_bad), <span class="at">colvar =</span> Proven.victims,        <span class="co">#set legend</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">heat.colors</span>(<span class="dv">100</span>), <span class="at">theta =</span> <span class="dv">60</span>, <span class="at">phi =</span> <span class="dv">20</span>,                   <span class="co">#choose legend colors</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year Start"</span>, <span class="at">ylab =</span> <span class="st">"Killer Count"</span>, <span class="at">zlab =</span> <span class="st">"Year End"</span>,  <span class="co">#labels for axes</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Serial Killers Worldwide"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,                   <span class="co">#Title</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">bty =</span> <span class="st">"u"</span>, <span class="at">ticktype =</span> <span class="st">"detailed"</span>, <span class="at">d =</span> <span class="dv">2</span>,                        </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">clab =</span> <span class="fu">c</span>(<span class="st">"Proven Victims"</span>), <span class="at">adj =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">6</span>,              <span class="co">#Label for legend</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="at">col.panel=</span><span class="st">"blue"</span>,<span class="at">col.grid=</span><span class="st">"black"</span>))                             <span class="co">#commit atrocity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -333,6 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"GoodPlotBadPlot"</span>,<span class="st">"Output"</span>,<span class="st">"BadPlot.pdf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There are many things that makes this plot a disgrace. First of all, it is <strong><em>3D</em></strong>. As we were taught in class, this is a general no-no for data visualization. It is unnecessarily complex and rarely displays data accurately. I also have two time metrics plotted on different axes, which is not intuitive at all. There are far too many variables beig analyzed here, with 3 axes and a scaled legend. My axees are not legible, and they are all titled but the titles aren’t all legible either. Given the amount of metrics I have, the numbers within the graph are also corresponding to relationships between axes, no longer displaying the value those labels should represent. Lastly, my colors. There’s just no reason for it to be bright blue. It doesn’t contribute positively to the aestheitcs, it doesn’t correlate to data, and it’s just distracting.</p>
 </section>
