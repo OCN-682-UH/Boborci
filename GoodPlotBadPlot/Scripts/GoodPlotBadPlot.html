@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro:</a></li>
-  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries">Libraries:</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data:</a></li>
-  <li><a href="#good-plot" id="toc-good-plot" class="nav-link" data-scroll-target="#good-plot">Good Plot!</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries">Libraries 📚:</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data 🔢:</a></li>
+  <li><a href="#good-plot" id="toc-good-plot" class="nav-link" data-scroll-target="#good-plot">Good Plot! 😇</a></li>
   <li><a href="#bad-plot" id="toc-bad-plot" class="nav-link" data-scroll-target="#bad-plot">Bad Plot 🤢</a></li>
   </ul>
 </nav>
@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one.</p>
 </section>
 <section id="libraries" class="level1">
-<h1>Libraries:</h1>
+<h1>Libraries 📚:</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#loaded a bajillion libraries</span></span>
@@ -136,28 +136,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytuesdayR)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emojifont)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devout)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devoutrgl)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(triangular)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(snowcrash)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cryogenic)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrgl)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapdata)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearthdata)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plot3D)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devout)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devoutrgl)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(triangular)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(snowcrash)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cryogenic)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrgl)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plot3D)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ragg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data" class="level1">
-<h1>Data:</h1>
+<h1>Data 🔢:</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in the data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -183,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now that we have data to work with, we can make some plots.</p>
 </section>
 <section id="good-plot" class="level1">
-<h1>Good Plot!</h1>
+<h1>Good Plot! 😇</h1>
 <p>This plot is going to be an attempt to be a beautiful visualization of the data.</p>
 <p>The first chunk will clean up some of the data</p>
 <div class="cell">
@@ -221,19 +213,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bar plot of amt of serial killers per country (top 10)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Killer_Plot <span class="ot">&lt;-</span> Killers_countries <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, Killer_Count), <span class="at">y =</span> Killer_Count)) <span class="sc">+</span>   <span class="co">#make countries go in order of no. of killers</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"darkred"</span>, <span class="at">color =</span> <span class="st">"black"</span>,<span class="at">width=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>    <span class="co">#I like it visualized with flipped axes</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Countries with the Most Serial Killers"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Killers"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Serial Killers from 1900 to Present"</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>Killer_Plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, Killer_Count), <span class="at">y =</span> Killer_Count, <span class="at">fill=</span>Killer_Count))<span class="sc">+</span>   <span class="co">#make countries go in order of no. of killers</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>,<span class="at">width=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>))<span class="sc">+</span>  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>    <span class="co">#I like it visualized with flipped axes</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Countries with the Most Serial Killers"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Killers"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Serial Killers from 1900 to Present"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill=</span><span class="st">"No. of Serial Killers"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>Killer_Plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -242,8 +236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>OR</p>
-<p>This chuk preps the data we need to make the plot.</p>
+<p>AND</p>
+<p>This chunk preps the data we need to make the plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#get data for all 10 countries with the most killers</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>top_10_countries<span class="ot">&lt;-</span> killers_clean <span class="sc">%&gt;%</span></span>
@@ -255,13 +249,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Killer_victims <span class="ot">&lt;-</span> killers_clean <span class="sc">%&gt;%</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Country <span class="sc">%in%</span> top_10_countries) <span class="sc">%&gt;%</span>   <span class="co">#Uses the countries we selected above</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Killer_Count =</span> <span class="fu">n</span>())<span class="sc">%&gt;%</span> <span class="co">#makes a row for killer count but also keeps the rest of the info</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Killer_Count))   <span class="co">#arrange in order for plotting</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Killer_Count =</span> <span class="fu">n</span>()) <span class="co">#makes a row for killer count but also keeps the rest of the info</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This chunk creates the plot</p>
+<p>This chunk creates the plot- the bar graph above becomes a visualization of the scale legend below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Killer_BoxPlot <span class="ot">&lt;-</span> Killer_victims<span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Country, <span class="at">y =</span> Proven.victims, <span class="at">fill=</span>Killer_Count)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, <span class="sc">-</span>Killer_Count), <span class="at">y =</span> Proven.victims, <span class="at">fill=</span> Killer_Count)) <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color =</span> <span class="st">"black"</span>,<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>))<span class="sc">+</span>   <span class="co">#choosing red for mt legend scale bar</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -291,7 +284,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This chunk stitches together the two plots I have already made, so they can be presented together.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#patched together? necessary?</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Killer_Plot<span class="sc">/</span>Killer_BoxPlot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Killer_Plot<span class="sc">/</span>Killer_BoxPlot <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>)) <span class="co"># The spacer is half the width of the plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -300,9 +294,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This plot is considered a good plot because it follows best data practices as defined in <em>The American Statistician-Data Organization in Spreadsheets</em> by Broman and Woo. These practices include <strong>Good Naming Conventions</strong>, <strong>No Empty Cells</strong>, and <strong>One Item per Cell</strong> and <strong>Save Data as Plain Text Files</strong>. I also created a <strong>Data Dictionary</strong>, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are - Clean and visible plot and axis titless - No unnecessary colors<br>
-- Clear legend if necessary<br>
-- Decluttered</p>
+<p>This plot is considered a good plot because it follows best data practices as defined in <em>The American Statistician-Data Organization in Spreadsheets</em> by Broman and Woo. These practices include <strong>Good Naming Conventions</strong>, <strong>No Empty Cells</strong>, and <strong>One Item per Cell</strong> and <strong>Save Data as Plain Text Files</strong>. I also created a <strong>Data Dictionary</strong>, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are</p>
+<ul>
+<li>Clean and visible plot and axis titles</li>
+<li>No unnecessary colors<br>
+</li>
+<li>Clear legend if necessary<br>
+</li>
+<li>Decluttered</li>
+</ul>
 </section>
 <section id="bad-plot" class="level1">
 <h1>Bad Plot 🤢</h1>
@@ -310,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now attempting a bad plot</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Killers_bad<span class="ot">&lt;-</span>killers_clean <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, Country)) <span class="sc">%&gt;%</span>    <span class="co">#removing values with multipple countries</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, Country)) <span class="sc">%&gt;%</span>    <span class="co">#removing values with multiple countries</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span>              </span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Killer_Count =</span> <span class="fu">n</span>())<span class="sc">%&gt;%</span>       <span class="co">#add column for serial killers per country</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">StartYear =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(StartYear)))<span class="sc">%&gt;%</span>    <span class="co">#needed all variables to be numbers</span></span>
@@ -322,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">rownames</span>(Killers_bad), <span class="at">colvar =</span> Proven.victims,        <span class="co">#set legend</span></span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">heat.colors</span>(<span class="dv">100</span>), <span class="at">theta =</span> <span class="dv">60</span>, <span class="at">phi =</span> <span class="dv">20</span>,                   <span class="co">#choose legend colors</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year Start"</span>, <span class="at">ylab =</span> <span class="st">"Killer Count"</span>, <span class="at">zlab =</span> <span class="st">"Year End"</span>,  <span class="co">#labels for axes</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Serial Killers Worldwide 🔪🩸"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,                   <span class="co">#Title</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Serial Killers Worldwide"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,                   <span class="co">#Title</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">bty =</span> <span class="st">"u"</span>, <span class="at">ticktype =</span> <span class="st">"detailed"</span>, <span class="at">d =</span> <span class="dv">2</span>,                        </span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">clab =</span> <span class="fu">c</span>(<span class="st">"Proven Victims"</span>), <span class="at">adj =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">6</span>,              <span class="co">#Label for legend</span></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="at">col.panel=</span><span class="st">"blue"</span>,<span class="at">col.grid=</span><span class="st">"black"</span>))                             <span class="co">#commit atrocity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

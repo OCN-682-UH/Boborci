@@ -13,7 +13,7 @@ format:
 # Intro: 
 This is my GoodPlot/BadPlot assignment. I am using the Serial Killer Dataset off Kaggle to attempt to make a beautiful visualization of the data, as well as a horrifying one. 
 
-# Libraries:
+# Libraries 📚:
 ```{r}
 #load libraries
 #loaded a bajillion libraries
@@ -27,9 +27,6 @@ library(ggmap)
 library(tidytuesdayR)
 library(emojifont)
 library(patchwork)
-library(ggrepel)
-library(gganimate)
-library(magick)
 library(devout)
 library(devoutrgl)
 library(triangular)
@@ -37,17 +34,12 @@ library(snowcrash)
 library(cryogenic)
 library(ggrgl)
 library(maps)
-library(mapdata)
-library(mapproj)
-library(ggspatial)
-library(sf)
-library(rnaturalearthdata)
-library(rnaturalearth)
 library(plot3D)
 library(RColorBrewer)
+library(ragg)
 
 ```
-# Data:
+# Data 🔢:
 
 ```{r}
 #Read in the data
@@ -74,7 +66,7 @@ View(serial_killers)
 Now that we have data to work with, we can make some plots.
 
 
-# Good Plot!
+# Good Plot! 😇
 This plot is going to be an attempt to be a beautiful visualization of the data.
 
 The first chunk will clean up some of the data
@@ -116,14 +108,16 @@ Then this chunk creates the plot.
 #bar plot of amt of serial killers per country (top 10)
 
 Killer_Plot <- Killers_countries %>%
-  ggplot(aes(x = reorder(Country, Killer_Count), y = Killer_Count)) +   #make countries go in order of no. of killers
-  geom_col(fill = "darkred", color = "black",width=0.5) +
+  ggplot(aes(x = reorder(Country, Killer_Count), y = Killer_Count, fill=Killer_Count))+   #make countries go in order of no. of killers
+  geom_col(color = "black",width=0.5) +
+  scale_fill_gradientn(colors = brewer.pal(9, "Reds"))+  
   coord_flip() +    #I like it visualized with flipped axes
   labs(
     title = "Countries with the Most Serial Killers",
     x = "",
     y = "Number of Killers",
-    subtitle="Serial Killers from 1900 to Present") +
+    subtitle="Serial Killers from 1900 to Present",
+    fill="No. of Serial Killers") +
   theme_minimal() +
     theme(
     plot.title = element_text(hjust = 0.5, face = "bold"))
@@ -131,10 +125,10 @@ Killer_Plot <- Killers_countries %>%
 Killer_Plot
 ```
 
-OR 
+AND
 
 
-This chuk preps the data we need to make the plot.
+This chunk preps the data we need to make the plot.
 ```{r}
 #get data for all 10 countries with the most killers
 top_10_countries<- killers_clean %>%
@@ -146,14 +140,14 @@ top_10_countries<- killers_clean %>%
 Killer_victims <- killers_clean %>%
   filter(Country %in% top_10_countries) %>%   #Uses the countries we selected above
   group_by(Country) %>%
-  mutate(Killer_Count = n())%>% #makes a row for killer count but also keeps the rest of the info
-  arrange(desc(Killer_Count))   #arrange in order for plotting
+  mutate(Killer_Count = n()) #makes a row for killer count but also keeps the rest of the info
+     
 ```
 
-This chunk creates the plot
+This chunk creates the plot- the bar graph above becomes a visualization of the scale legend below.
 ```{r}
 Killer_BoxPlot <- Killer_victims%>%
-  ggplot(aes(x = Country, y = Proven.victims, fill=Killer_Count)) +
+  ggplot(aes(x = reorder(Country, -Killer_Count), y = Proven.victims, fill= Killer_Count)) +
   geom_boxplot(color = "black",alpha=0.7) +
   scale_fill_gradientn(colors = brewer.pal(9, "Reds"))+   #choosing red for mt legend scale bar
   labs(
@@ -179,14 +173,17 @@ Killer_BoxPlot
 This chunk stitches together the two plots I have already made, so they can be presented together. 
 ```{r}
 #patched together? necessary?
-Killer_Plot/Killer_BoxPlot
+Killer_Plot/Killer_BoxPlot +
+ plot_layout(heights = c(5,5)) # The spacer is half the width of the plots
 ```
 
 This plot is considered a good plot because it follows best data practices as defined in _The American Statistician-Data Organization in Spreadsheets_ by Broman and Woo. These practices include **Good Naming Conventions**, **No Empty Cells**, and **One Item per Cell** and **Save Data as Plain Text Files**. I also created a **Data Dictionary**, to ensure people can understand what exactly the data are referring to. As a visualization, this plot follows the best practices we learned in class. Some of these aspects are
--   Clean and visible plot and axis titless 
--   No unnecessary colors   
--   Clear legend if necessary  
--   Decluttered  
+
+- Clean and visible plot and axis titles 
+- No unnecessary colors   
+- Clear legend if necessary  
+- Decluttered  
+
 
   
 # Bad Plot 🤢
@@ -196,7 +193,7 @@ I apologize for what you are about to see.
 ```{r}
 #Now attempting a bad plot
 Killers_bad<-killers_clean %>%
-  filter(!grepl("\n", Country)) %>%    #removing values with multipple countries
+  filter(!grepl("\n", Country)) %>%    #removing values with multiple countries
   group_by(Country) %>%              
   mutate(Killer_Count = n())%>%       #add column for serial killers per country
   mutate(StartYear = as.numeric(as.character(StartYear)))%>%    #needed all variables to be numbers
@@ -208,7 +205,7 @@ with(Killers_bad, text3D(StartYear, Killer_Count, EndYear,        #define all ax
   labels = rownames(Killers_bad), colvar = Proven.victims,        #set legend
   col = heat.colors(100), theta = 60, phi = 20,                   #choose legend colors
   xlab = "Year Start", ylab = "Killer Count", zlab = "Year End",  #labels for axes
-  main = "Serial Killers Worldwide 🔪🩸", cex = 0.6,                   #Title
+  main = "Serial Killers Worldwide", cex = 0.6,                   #Title
   bty = "u", ticktype = "detailed", d = 2,                        
   clab = c("Proven Victims"), adj = 0.5, font = 6,              #Label for legend
 col.panel="blue",col.grid="black"))                             #commit atrocity
