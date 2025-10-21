@@ -1,0 +1,8 @@
+﻿Column tile,Definition
+Name,Name of Individual Serial Killer
+Country,Country individual was born in or was active in
+StartYear,Year thar marks the beginning of the killer's period of activity
+EndYear,Year thar marks the end of the killer's period of activity
+Proven Kills,How many people the individual was confirmed to have killed
+Possible Kills,How many people the individual may be responsible for killing
+Killer Count,How many individual serial killers are associated with each country
