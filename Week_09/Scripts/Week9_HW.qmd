@@ -1,0 +1,138 @@
+---
+title: "Week 9 Homework"
+author: "Madigan Boborci"
+format: 
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+---
+# Intro
+  This week's homework was designed to clean a data set, to use strings if necessary, and to use what we learned on factors. 
+  
+### Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library(here)
+library(tidyverse)
+library(janitor)
+library(tidytext)
+library(stringr)
+library(fishualize)
+```
+
+### Data
+```{r}
+#| message: false
+#| warning: false
+
+data<-read.csv(here("Week_09", "Data", "intertidaldata.csv"))
+dictionary<-read.csv(here("Week_09", "Data", "intertidal_data_dictionary.csv"))
+
+head(data)
+```
+### Clean up this dataframe
+```{r}
+#| message: false
+#| warning: false
+
+data<-clean_names(data)
+```
+```{r}
+#|message: false
+#|warning: false
+
+#still fix whelks_counts, crabs_counts, stars_counts
+data_long<-data%>%
+ pivot_longer(cols=bare_rock:stars_counts,    ####all columns we want to pivot
+               names_to = "Substrate",      ### name of new column of all the dif variables you just pivoted
+               values_to = "Cover")%>%     ## change values to represrnt percent cover for each
+  drop_na()%>%
+  group_by(site, quadrat, Substrate)%>% 
+  mutate(Substrate= case_when(
+    Substrate=="whelks_counts"~"whelks",       #last few parameters janitor couldn't clean 
+    Substrate=="crabs_counts"~"crabs",        #what do I do cos others are in %cover not count
+    Substrate=="stars_counts"~"seastars",
+  TRUE~Substrate))%>%
+  mutate(
+    # The 'quadrat' column is overwritten with the cleaned string data
+    quadrat = str_replace_all(quadrat, '\\.', ' ') %>%
+              str_trim()
+  )%>%
+write_csv(here("Week_09", "Output", "data_long.csv"))
+
+#this data has everything still included but is tidier than OG
+data_long
+```
+
+
+
+
+### Decide what to analyze
+```{r}
+#| message: false
+#| warning: false
+
+#plot barnacle dist across the tide zones
+#tide level factor as x bins->make factor and set levels, y is perent cover, and bar plot with each color as a different barnacle, faceted by site
+
+data_clean<-data_long%>% 
+  filter(Substrate %in% c("small_barnacles","large_barnacles","gooseneck_barnacles"))%>% #only want to look at barnacles
+  drop_na() %>%      #drops any NA's
+  mutate(Substrate= case_when(
+    Substrate=="small_barnacles"~"Small Barnacles",   #last few parameters janitor couldn't clean 
+    Substrate=="large_barnacles"~"Large Barnacles", #what do I do cos others are in %cover not count
+    Substrate=="gooseneck_barnacles"~"Gooseneck Barnacles",
+  TRUE~Substrate))%>%
+  group_by(quadrat,Substrate) %>%
+  mutate(
+    Sub_Mean_Cover = mean(Cover, na.rm = TRUE)
+  ) %>%
+  ungroup()%>% # Always a good practice to ungroup afterward
+  mutate(quadrat = factor(quadrat, levels = c("Low", "Mid", "High"))) %>% #make factor + order lvls
+  drop_na()%>%
+  ungroup()
+```
+
+### Plot
+```{r}
+#| message: false
+#| warning: false
+
+ data_clean%>%
+  ggplot((aes(x = fct_reorder(Substrate, Sub_Mean_Cover), y = Sub_Mean_Cover)))+ 
+  geom_bar(aes(x = quadrat, y=Sub_Mean_Cover, fill=Substrate), stat="identity", position = "dodge")+
+  #want bar graph which each barnacle sp next to eachother
+scale_fill_fish_d(option = "Gomphosus_varius")+      ###Color scheme from fishualize package
+labs(title="Barnacle Distribution Across Tidal Zonation",                  
+     subtitle="Mean Percent Cover Across All Sites of Barnacles at Different Tidal Levels",
+     x="Tide Zone",
+     y="Mean Percent Cover",                 ###Change axes and Titles etc
+     fill="Barnacle Type")+
+  theme_grey()+                                     
+  theme(axis.title=element_text(size=12))+
+  theme(plot.title=element_text(size=15,
+                                face="bold"))
+
+
+ggsave(here("Week_09","Output","HW_plot.png"),width=7,height=5)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
