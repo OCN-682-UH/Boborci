@@ -140,122 +140,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>, <span class="st">"Data"</span>, <span class="st">"intertidaldata.csv"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dictionary<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>, <span class="st">"Data"</span>, <span class="st">"intertidal_data_dictionary.csv"</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     Site Transect Quadrat Bare.Rock Algae Mussels Small.Barnacles
-1 Scripps        1  Low  .        25    75       0               2
-2 Scripps        1     Mid        50     0       5              50
-3 Scripps        1    High        20    50       1              50
-4 Scripps        2     Low        10    85       0               0
-5 Scripps        2     Mid        40     5      10              40
-6 Scripps        2    High        40     5       0              55
-  Large.Barnacles Gooseneck.Barnacles Anemone Whelks..Counts. Crabs..Counts.
-1               5                   0       3               0              0
-2               5                   0       0               0              0
-3               0                   0       0               0              0
-4               0                   5       0               0              0
-5               1                   5       0               0              0
-6               0                   0       0               0              0
-  Stars..Counts.
-1              0
-2              0
-3              0
-4              0
-5              0
-6              0</code></pre>
-</div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#head(data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="clean-up-this-dataframe" class="level3">
 <h3 class="anchored" data-anchor-id="clean-up-this-dataframe">Clean up this dataframe</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">clean_names</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">clean_names</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|message: false</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#still fix whelks_counts, crabs_counts, stars_counts</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data_long<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">pivot_longer</span>(<span class="at">cols=</span>bare_rock<span class="sc">:</span>stars_counts,    <span class="do">####all columns we want to pivot</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Substrate"</span>,      <span class="do">### name of new column of all the dif variables you just pivoted</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Cover"</span>)<span class="sc">%&gt;%</span>     <span class="do">## change values to represrnt percent cover for each</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site, quadrat, Substrate)<span class="sc">%&gt;%</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Substrate=</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"whelks_counts"</span><span class="sc">~</span><span class="st">"whelks"</span>,       <span class="co">#last few parameters janitor couldn't clean </span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"crabs_counts"</span><span class="sc">~</span><span class="st">"crabs"</span>,        <span class="co">#what do I do cos others are in %cover not count</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"stars_counts"</span><span class="sc">~</span><span class="st">"seastars"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>Substrate))<span class="sc">%&gt;%</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The 'quadrat' column is overwritten with the cleaned string data</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">quadrat =</span> <span class="fu">str_replace_all</span>(quadrat, <span class="st">'</span><span class="sc">\\</span><span class="st">.'</span>, <span class="st">' '</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>              <span class="fu">str_trim</span>()</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>, <span class="st">"Output"</span>, <span class="st">"data_long.csv"</span>))</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#this data has everything still included but is tidier than OG</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>data_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4,500 × 5
-# Groups:   site, quadrat, Substrate [460]
-   site    transect quadrat Substrate           Cover
-   &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;               &lt;int&gt;
- 1 Scripps        1 Low     bare_rock              25
- 2 Scripps        1 Low     algae                  75
- 3 Scripps        1 Low     mussels                 0
- 4 Scripps        1 Low     small_barnacles         2
- 5 Scripps        1 Low     large_barnacles         5
- 6 Scripps        1 Low     gooseneck_barnacles     0
- 7 Scripps        1 Low     anemone                 3
- 8 Scripps        1 Low     whelks                  0
- 9 Scripps        1 Low     crabs                   0
-10 Scripps        1 Low     seastars                0
-# ℹ 4,490 more rows</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|message: false</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#still fix whelks_counts, crabs_counts, stars_counts</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data_long<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">pivot_longer</span>(<span class="at">cols=</span>bare_rock<span class="sc">:</span>stars_counts,    <span class="do">####all columns we want to pivot</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Substrate"</span>,      <span class="do">### name of new column of all the dif variables you just pivoted</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Cover"</span>)<span class="sc">%&gt;%</span>     <span class="do">## change values to represrnt percent cover for each</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site, quadrat, Substrate)<span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Substrate=</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"whelks_counts"</span><span class="sc">~</span><span class="st">"whelks"</span>,       <span class="co">#last few parameters janitor couldn't clean </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"crabs_counts"</span><span class="sc">~</span><span class="st">"crabs"</span>,        <span class="co">#what do I do cos others are in %cover not count</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"stars_counts"</span><span class="sc">~</span><span class="st">"seastars"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>Substrate))<span class="sc">%&gt;%</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The 'quadrat' column is overwritten with the cleaned string data</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">quadrat =</span> <span class="fu">str_replace_all</span>(quadrat, <span class="st">'</span><span class="sc">\\</span><span class="st">.'</span>, <span class="st">' '</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>              <span class="fu">str_trim</span>()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>, <span class="st">"Output"</span>, <span class="st">"data_long.csv"</span>))</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#this data has everything still included but is tidier than OG</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#data_long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="decide-what-to-analyze" class="level3">
 <h3 class="anchored" data-anchor-id="decide-what-to-analyze">Decide what to analyze</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot barnacle dist across the tide zones</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tide level factor as x bins-&gt;make factor and set levels, y is perent cover, and bar plot with each color as a different barnacle, faceted by site</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data_clean<span class="ot">&lt;-</span>data_long<span class="sc">%&gt;%</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Substrate <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"small_barnacles"</span>,<span class="st">"large_barnacles"</span>,<span class="st">"gooseneck_barnacles"</span>))<span class="sc">%&gt;%</span> <span class="co">#only want to look at barnacles</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span>      <span class="co">#drops any NA's</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Substrate=</span> <span class="fu">case_when</span>(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"small_barnacles"</span><span class="sc">~</span><span class="st">"Small Barnacles"</span>,   <span class="co">#last few parameters janitor couldn't clean </span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"large_barnacles"</span><span class="sc">~</span><span class="st">"Large Barnacles"</span>, <span class="co">#what do I do cos others are in %cover not count</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"gooseneck_barnacles"</span><span class="sc">~</span><span class="st">"Gooseneck Barnacles"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>Substrate))<span class="sc">%&gt;%</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quadrat,Substrate) <span class="sc">%&gt;%</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sub_Mean_Cover =</span> <span class="fu">mean</span>(Cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span> <span class="co"># Always a good practice to ungroup afterward</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quadrat =</span> <span class="fu">factor</span>(quadrat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Mid"</span>, <span class="st">"High"</span>))) <span class="sc">%&gt;%</span> <span class="co">#make factor + order lvls</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot barnacle dist across the tide zones</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tide level factor as x bins-&gt;make factor and set levels, y is perent cover, and bar plot with each color as a different barnacle, faceted by site</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data_clean<span class="ot">&lt;-</span>data_long<span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Substrate <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"small_barnacles"</span>,<span class="st">"large_barnacles"</span>,<span class="st">"gooseneck_barnacles"</span>))<span class="sc">%&gt;%</span> <span class="co">#only want to look at barnacles</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span>      <span class="co">#drops any NA's</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Substrate=</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"small_barnacles"</span><span class="sc">~</span><span class="st">"Small Barnacles"</span>,   <span class="co">#last few parameters janitor couldn't clean </span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"large_barnacles"</span><span class="sc">~</span><span class="st">"Large Barnacles"</span>, <span class="co">#what do I do cos others are in %cover not count</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    Substrate<span class="sc">==</span><span class="st">"gooseneck_barnacles"</span><span class="sc">~</span><span class="st">"Gooseneck Barnacles"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span><span class="sc">~</span>Substrate))<span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quadrat,Substrate) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sub_Mean_Cover =</span> <span class="fu">mean</span>(Cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span> <span class="co"># Always a good practice to ungroup afterward</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quadrat =</span> <span class="fu">factor</span>(quadrat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Mid"</span>, <span class="st">"High"</span>))) <span class="sc">%&gt;%</span> <span class="co">#make factor + order lvls</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot" class="level3">
 <h3 class="anchored" data-anchor-id="plot">Plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> data_clean<span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>((<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(Substrate, Sub_Mean_Cover), <span class="at">y =</span> Sub_Mean_Cover)))<span class="sc">+</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> quadrat, <span class="at">y=</span>Sub_Mean_Cover, <span class="at">fill=</span>Substrate), <span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>)<span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#want bar graph which each barnacle sp next to eachother</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_fish_d</span>(<span class="at">option =</span> <span class="st">"Gomphosus_varius"</span>)<span class="sc">+</span>      <span class="do">###Color scheme from fishualize package</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Barnacle Distribution Across Tidal Zonation"</span>,                  </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">subtitle=</span><span class="st">"Mean Percent Cover Across All Sites of Barnacles at Different Tidal Levels"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">x=</span><span class="st">"Tide Zone"</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="st">"Mean Percent Cover"</span>,                 <span class="do">###Change axes and Titles etc</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">fill=</span><span class="st">"Barnacle Type"</span>)<span class="sc">+</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>()<span class="sc">+</span>                                     </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>))<span class="sc">+</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> data_clean<span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>((<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(Substrate, Sub_Mean_Cover), <span class="at">y =</span> Sub_Mean_Cover)))<span class="sc">+</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> quadrat, <span class="at">y=</span>Sub_Mean_Cover, <span class="at">fill=</span>Substrate), <span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>)<span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#want bar graph which each barnacle sp next to eachother</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_fish_d</span>(<span class="at">option =</span> <span class="st">"Gomphosus_varius"</span>)<span class="sc">+</span>      <span class="do">###Color scheme from fishualize package</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Barnacle Distribution Across Tidal Zonation"</span>,                  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">subtitle=</span><span class="st">"Mean Percent Cover Across All Sites of Barnacles at Different Tidal Levels"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">x=</span><span class="st">"Tide Zone"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="st">"Mean Percent Cover"</span>,                 <span class="do">###Change axes and Titles etc</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">fill=</span><span class="st">"Barnacle Type"</span>)<span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>()<span class="sc">+</span>                                     </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>))<span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -263,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>,<span class="st">"Output"</span>,<span class="st">"HW_plot.png"</span>),<span class="at">width=</span><span class="dv">7</span>,<span class="at">height=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"Week_09"</span>,<span class="st">"Output"</span>,<span class="st">"HW_plot.png"</span>),<span class="at">width=</span><span class="dv">7</span>,<span class="at">height=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
