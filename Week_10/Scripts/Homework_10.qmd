@@ -1,0 +1,165 @@
+---
+title: "Week 10 HW"
+author: "Madigan Boborci"
+format: html
+---
+# Intro
+Instructions: Use any dataset you would like and make two useful functions. One that is a plot and one that is not. Turn in your functions using Quarto with at least 2 examples per function showing its flexibility.
+
+# Libraries
+```{r}
+#| message: false
+#| warning: false
+library(here)
+library(tidyverse)
+library(fishualize)
+```
+
+# Data:
+  I would like to use the data from the Mo'orea dataset from Week 5
+```{r}
+site_data<-read.csv(here("Week_10","Data","site.characteristics.data.csv"))
+View(site_data)
+```
+ 
+# Make da factors
+  One function will be to help find the mean of any of the parameters we choose.
+  One function for plotting values.
+  
+```{r}
+
+#I want to make a function that finds the mean value for whatever parameter I put in
+
+parameter_mean <- function(data = site_data, parameter){
+  ave <- data %>%
+    filter(parameter.measured == parameter) %>%  #sets parameter in output to be related to the parameter.measured column in the data 
+    summarise(mean_value = mean(values, na.rm = TRUE)) %>%    #set what functin does: take mean
+    pull(mean_value)    #specifies I just want the mean val
+  return(ave)           #calls my output
+}
+
+#test it out
+parameter_mean(parameter="P") 
+
+parameter_mean(parameter="algal.cover")
+
+
+#Yay it worked
+
+
+
+```
+  
+```{r}
+#now to make a factor for a plot
+
+#first simply make a plot and then we can go crazy wit it
+#do coral cover at each site
+
+wide_data<-site_data%>%
+  pivot_wider(names_from=parameter.measured, values_from=values)
+#need this so we can focus on one parameter at a time
+
+#make the framework plot 
+wide_data%>%
+  ggplot(aes(x=name, y=coral.cover, group = name, fill=name))+
+  geom_col()+ 
+  scale_fill_fish_d(option = "Scarus_quoyi")+      ###Color scheme from fishualize package
+  theme_minimal()+                                     
+  theme(axis.title=element_text(size=15))+
+  theme(plot.title=element_text(size=15,
+                                face="bold"))+
+  theme(axis.text.x = element_text(angle=45,hjust = 1)) 
+
+
+
+  
+#these can be added post function:
+#labs(title="Substrate Cover and Nitrogen Percentages at each Site",                  
+     #subtitle="Mean Percentages of CCA and Fleshy Algae cover at sites in Mo'orea",
+     #x=NULL,
+     #y="Percent",                                            ###Change axes and Titles etc
+     #fill="Value Measured")
+
+
+```
+
+```{r}
+#first function attempt:more specific to this plot
+moorea_plot<-function(data=wide_data, x=name, y=coral.cover){
+ 
+  ggplot(data=wide_data,aes(x=name, y=coral.cover, group = name, fill=name))+
+  geom_col()+ 
+  scale_fill_fish_d(option = "Scarus_quoyi")+      ###Color scheme from fishualize package
+  theme_minimal()+                                     
+  theme(axis.title=element_text(size=15))+
+  theme(plot.title=element_text(size=15,
+                                face="bold"))+
+  theme(axis.text.x = element_text(angle=45,hjust = 1)) 
+  
+}
+```
+
+```{r}
+
+moorea_plot()+
+  labs(title="Coral Cover Percentages at each Site",                  
+     subtitle="Coral  cover at sites in Mo'orea",
+     x=NULL,
+     y="Percent Cover",                                            ###Change axes and Titles etc
+     fill="Value Measured")
+  
+```
+
+```{r}
+#can make more general
+gen_plot<-function(data=wide_data,x,y){
+ 
+  ggplot(data,aes(x={{x}}, y={{y}}, group = name, fill=name))+ #still going to fill by site
+  geom_col()+ 
+  scale_fill_fish_d(option = "Scarus_quoyi")+      ###Color scheme from fishualize package
+  theme_minimal()+                                     
+  theme(axis.title=element_text(size=15))+
+  theme(plot.title=element_text(size=15,
+                                face="bold"))+
+  theme(axis.text.x = element_text(angle=45,hjust = 1)) 
+}
+  
+```
+
+```{r}
+gen_plot(x=name, y=algal.cover)+                    #can make y any parameter:NH4, P, light etc
+  labs(title="Algal Cover Percentages at each Site",                  
+     subtitle="Algal  cover at sites in Mo'orea",
+     x=NULL,
+     y="Percent Cover",                                            ###Change axes and Titles etc
+     fill="Value Measured")
+```
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
