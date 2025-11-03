@@ -5,6 +5,7 @@ format:
   html:
     toc: true
     theme: cerulean
+    self-contained: true
     mainfont: "Georgia"
     prefer-html: true
 ---
