@@ -1,7 +1,12 @@
 ---
 title: "Week 10 HW"
 author: "Madigan Boborci"
-format: html
+format:
+  html:
+    theme: cerulean
+    self-contained: true
+    
+
 ---
 # Intro
 Instructions: Use any dataset you would like and make two useful functions. One that is a plot and one that is not. Turn in your functions using Quarto with at least 2 examples per function showing its flexibility.
