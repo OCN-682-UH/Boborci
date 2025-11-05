@@ -1,0 +1,12 @@
+name: FirstApp
+title: FirstApp
+username: mboborci
+account: mboborci
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15968616
+bundleId: 11132302
+url: https://mboborci.shinyapps.io/FirstApp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
