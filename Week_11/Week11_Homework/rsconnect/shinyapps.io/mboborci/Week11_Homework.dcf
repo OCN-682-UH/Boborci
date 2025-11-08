@@ -1,0 +1,12 @@
+name: Week11_Homework
+title: Week11_Homework
+username: mboborci
+account: mboborci
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 16007790
+bundleId: 11151249
+url: https://mboborci.shinyapps.io/Week11_Homework/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
