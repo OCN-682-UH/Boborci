@@ -1,0 +1,78 @@
+---
+title: "TidyTues 1"
+author: "Madigan Boborci"
+format:
+  html:
+    theme: cerulean
+    toc: true
+    self-contained: true
+---
+
+## Introduction:
+This is the first Tidy Tuesday Assignment. The dataset is about the lead levels in the water in Flint, Michigan. 
+
+### Libraries 
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+library(here)
+```
+
+### Load in the TidyTuesday Data
+
+```{r}
+#| message: false
+#| warning: false
+flint_mdeq <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-11-04/flint_mdeq.csv')
+flint_vt <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-11-04/flint_vt.csv')
+```
+
+
+
+
+### Make a Plot
+  We are supposed to make any visualization we would like, but we have to learn something new. 
+  Here I make a base plot that has the density set as the amount of times each value is recorded and the lead measurements in ppb on the x axis. 
+```{r}
+vt_plot<-ggplot(data = flint_vt, aes(x = lead, y=after_stat(count))) +       #define x axis, make y axis easier to understand
+      geom_density() +   
+  coord_cartesian (ylim=c(0,20))+
+      labs(title ="Frequency of Lead Measurements in Flint",  
+           x="Lead Measurement (ppb)",
+           y="Frequency")
+```
+
+
+Here, I looked up any lead value that was acceptable, and found that public water suppliers have a grace window of safely consumable water under [15 ppb] (https://facs.com/blog/guide-to-ppb-and-safe-lead-levels-in-water-understanding-the-standards/). I wanted to emphasize this so that it was clear just how much lead is in the water.
+```{r}
+#| fig-align: "center"    # can change plot alignment 
+#| label: fig-flint     # if a figure, always start with fig-. label applies to whole code chunk so 1 fig per chunk
+#| fig-cap: "Frequency of Lead Measurements in PPB"
+
+vt_plot+
+  geom_vline(
+    xintercept = 15,          # where line intercepts x
+    linetype = "dashed",      
+    color = "red",            
+    linewidth = 1          
+  )+
+  annotate(                  # adding a label
+    "text",
+    x = 45,                  # Choose where text will go
+    y = 16,               
+    label = "Public Water Supplier Lead Threshhold",     #what I want it to say
+    color = "darkred",
+    size = 3,
+    fontface = "bold"
+  )
+
+ggsave(here("TidyTuesday","Outputs","TT_1.png"),width=7,height=5)
+
+```
+
+### Summary and What's New
+  Here in @fig-flint we can see how many measurements read far over the acceptable level of lead, even for a public water distributor. I made my first density plots for both of my assignments this week, so that was new for me. In addition, on this plot I learned how to change the y axis to something more useful, as well as add static annotations to draw attention to specific portions of my plots. 
