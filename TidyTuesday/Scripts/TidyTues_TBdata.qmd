@@ -1,0 +1,91 @@
+---
+title: "Tidy Tuesday 2"
+author: "Madigan Boborci"
+format:
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+execute: 
+  message: false 
+  warning: false 
+---
+
+## Intro:
+  This week's TidyTuesday is based of of WHO tuberculosis data. 
+
+## Libraries:
+These are all of the libraries I used this week.
+```{r}
+#load libraries
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(htmlwidgets)
+library(ggiraph)
+library(ggsci)
+library(here)
+library(htmltools)
+```
+
+
+## Data:
+```{r}
+who_tb_data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-11-11/who_tb_data.csv')
+```
+## Make a Plot
+```{r}
+#line graph wouldn't work unless I averaged the case numbers
+#find average number of cases per region per year to graph
+
+TB_data<-who_tb_data%>%
+   group_by(g_whoregion, year)%>%     #want to group by region and year
+  summarise(mean_tb=mean(e_inc_100k, na.rm=TRUE)) #find mean cases (per 100,000 pop)
+
+```
+
+```{r}
+#make line graph to show cases per region 
+tb_plot<-ggplot(data = TB_data, aes(x = year, y=mean_tb, group=g_whoregion,   color=g_whoregion,tooltip = g_whoregion, data_id =g_whoregion)) +      
+      geom_line_interactive(hover_nearest=TRUE)+   #"interactive" added later when using ggiraph package
+  scale_color_npg()+      #new colors! inspired by "Nature"
+      labs(title ="Number of Incident Cases over Time", 
+           subtitle="per 100,000 Population",               #make a clear title
+           x="Year",
+           y="Ave No. of cases",
+           color="Region")                                  #rename legend, still keeping legend even though it's interactive for clarity 
+
+interactive_plot <- girafe(ggobj = tb_plot)    #add my graph as an interactive feature
+interactive_plot <- girafe_options(
+  interactive_plot,                            #mess around with highlight colors etc
+  opts_hover(css = "stroke:black;cursor:pointer;"))
+
+
+save_html(interactive_plot, file="TB_Plot.html")
+ggsave(here("TidyTuesday","Outputs","TB_Plot_Static.png"),width=7,height=5)
+```
+```{r}
+interactive_plot
+```
+
+
+
+## Summary 
+I used this dataset to make a rather simple graph, but I learned how to make it interactive! Using the ggiraph function, I was able to allow the user to hover over the graph and get information from it. I want to use this more in my next assignment and try to coordinate between multiple graphs with interactive features. I also learned the package ggsci which has color palettes based off of popular scientific journals. For this project, I chose the *Nature* palette. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
