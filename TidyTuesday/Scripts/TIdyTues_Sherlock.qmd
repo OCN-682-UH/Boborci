@@ -1,0 +1,129 @@
+---
+title: "Tidy Tuesday 3"
+author: "Madigan Boborci"
+format:
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+execute: 
+  message: false 
+  warning: false 
+---
+## Intro:
+This week's Tidy Tuesday is based off of Sherlock Holmes. 
+
+## Libraries
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(here)
+library(tidytext)
+library(wordcloud2)
+library(plotly)
+library(stringr)
+library(paletteer)
+```
+
+
+
+## Data:
+```{r}
+holmes <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-11-18/holmes.csv')
+
+```
+## Make a Plot:
+This week's data is a lot of words and literary data.
+
+
+```{r}
+  tidy_holmes<- holmes %>%
+    unnest_tokens(output = word, input = text) # add a column named word, with the input as the text column
+  
+cleaned_holmes<-tidy_holmes %>%
+  anti_join(get_stopwords()) #take out commmon prepostions, short words etc
+
+
+cleaned_holmes %>%
+  count(word, sort = TRUE)   #sorted by no of times used
+
+```
+
+
+```{r}
+
+target_words <- c("sherlock", "holmes", "john", "watson")    #for my plot I only want to see these words
+selected_books <- c(
+  "A Study In Scarlet",
+  "The Sign of the Four",
+  "The Hound of the Baskervilles",
+  "The Valley Of Fear")
+#Chose these four because they're the four ACD novels
+
+name_count <- cleaned_holmes %>%
+  mutate(book = str_trim(book)) %>%      #make sure there aren't spaces I cant see, rean into an issue with one
+  filter(word %in% target_words) %>%   #finds just the words I want
+  filter(book %in% selected_books) %>% #finds just the books I want
+  count(book, word, sort = TRUE) %>%   #sort by number of times they appeat
+ mutate(book = factor(book, levels = selected_books), #make a factor of my selected books
+    word = reorder(word, n)) %>% #now it orders the words per each book
+
+  ungroup()   #always good to ungroup in case
+```
+
+
+```{r}
+#I decided I want to make a color palette representative of Sherlock to graph with 
+#sherlock_color <- c("#383838", "#2d5867", "#1e2e4d", "#2c003a")
+#this was fine, but I wanted more contrast. Found an antique book vibe instead
+```
+
+
+```{r}
+holmes_plot <- name_count %>%
+  ggplot( aes(x=book, y=n, size = n, color = word)) +      #here goes my "new thing"
+    geom_point(alpha=0.6) +
+  scale_color_paletteer_d("rcartocolor::Antique")+   #aforementioned antique book vibe
+    scale_size(range = c(1.4, 19), name="Name count per Book") + #making a bubble plot
+   coord_cartesian(ylim = c(0, 250)) +             #these lines set bubble size and I expanded the y axis a little
+    labs(
+      title = "Name Dropping over the Sherlock Holmes Novels",
+      x = "Book Title",
+      y = "No. of Times Name Was Said") +
+    theme_bw()+
+  theme(
+    axis.title.x=element_text(family="Baskerville"),
+      axis.title.y=element_text(family="Baskerville"),
+      axis.text.x = element_text(angle = 45, hjust = 1,family="Baskerville"),
+     axis.text.y=element_text(family="Baskerville"),
+      legend.position = "right",
+     legend.title = element_text(family="Baskerville"),
+      legend.text = element_text(size = 10, family="Baskerville"),
+      plot.title = element_text(size=14,face="bold",family = "Baskerville",color = "black"))
+
+# Print the plot
+holmes_plot
+
+
+ggsave(here("TidyTuesday","Outputs","SherlockPlot.png"),width=7,height=5)
+```
+
+## Summary:
+This week's data was literary based, and I had a hard time figuring out what I wanted to do. I settled on a fun bubble plot which I had never made before. This was my new thing I learned this week. I definitely struggled a little and went through several iterations before I narrowed my data enough to make this an effective graph. I chose a fun palette and made the font "Baskerville" because... you know... Hound of the Baskervilles. Get it? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
