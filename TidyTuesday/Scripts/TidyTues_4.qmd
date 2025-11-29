@@ -1,0 +1,157 @@
+---
+title: "Tidy Tues 4"
+author: "Madigan Boborci"
+format: 
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+execute: 
+  message: false 
+  warning: false 
+---
+## Intro
+This week's Tidy Tuesday deals with countries and their statistics... not sure exaclty what I'm looking at but here we go. 
+
+## Libraries
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(here)
+library(tidytext)
+library(plotly)
+library(stringr)
+library(htmlwidgets)
+library(ggiraph)
+library(ggsci)
+library(htmltools)
+library(patchwork)
+library(rcartocolor)
+```
+
+## Data
+```{r}
+spi_indicators <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-11-25/spi_indicators.csv')
+#View(spi_indicators)
+```
+
+## Make a Plot
+
+```{r}
+spi_income<-spi_indicators%>%
+  group_by(income, region, year)%>%
+  filter(year==2023)%>%   #added this in so that I could make charts about areas that change over time, just dealing with one timepoint
+   summarize(       #have to take means because each region hs several countries it accounts for 
+    mean_overall = mean(overall_score, na.rm = TRUE),
+    mean_use = mean(data_use_score, na.rm = TRUE),
+    mean_services = mean(data_services_score, na.rm = TRUE),
+    mean_products = mean(data_products_score, na.rm = TRUE),
+    mean_sources = mean(data_sources_score, na.rm = TRUE),
+    mean_infrastructure = mean(data_infrastructure_score, na.rm = TRUE)) %>%
+  drop_na()%>%
+  pivot_longer(cols="mean_overall":"mean_infrastructure",      #pivoting to be able to use each measurement and its value
+              names_to="Category",
+              values_to="Vals")
+```
+
+First Plot
+```{r}
+violin<- ggplot(data=spi_income, aes(x=income, y=Vals,fill=income)) +
+  geom_violin_interactive(aes(tooltip = paste("Income:", income),     #since this data id is income, to make the plots interact with eachother the other data id will also be income
+    data_id = income, hover_nearest=TRUE, alpha=0.5))+
+  scale_fill_carto_d(palette="Vivid")+
+  stat_summary(
+    fun.data = "mean_se",     # Calculate Mean +/- Standard Error
+    geom = "errorbar",       #aesthetics for error bars
+    color = "black",             
+    linewidth = 0.3         
+  ) +
+  facet_wrap(~Category)+
+  labs(
+    title = "Average Values for Each\nData Category by Income Bracket in 2023",
+    x = "Income Bracket", y = "Average Value")+
+  geom_jitter_interactive(aes(color=income))+   #added so you can see the actual dist
+  scale_color_carto_d(palette="Vivid")+
+  theme_grey()+
+  theme(axis.text.x=element_blank())+
+theme(legend.position = "none")+
+  theme(plot.title = element_text(             #mess with axis text and titles etc
+      size = 10, 
+      face = "bold", 
+      hjust = 0 ))+
+  theme (axis.title.x = element_text(size=8))+
+  theme(axis.title.y = element_text(size=8))+
+  theme(axis.text.y=element_text(size=6))+
+  theme(legend.position = "none")+
+  theme(plot.title = element_text(
+      size = 10,
+      face = "bold"))
+
+violin
+```
+
+
+```{r}
+spi_countries<-spi_indicators%>%       #next wanted to look at income by region, and did country count to make my barplot more interesting
+  filter(year==2023)%>%
+  group_by(region, income)%>%
+  summarize(
+    country_count = n()
+  )
+
+```
+
+
+Second Plot 
+```{r}
+ barplot<-ggplot(data=spi_countries, aes(x=income,y=country_count,fill=region,tooltip = paste("Region:", region, "Income:", income),
+    data_id = income))+       #here's where we have to match data id
+  geom_bar_interactive(stat="identity")+
+  scale_fill_carto_d(name="Region",palette="Vivid")+
+  labs(
+    x = "Income Brackets",
+    y = "No. of Countries per Region",
+    title = "Regions per Income\nBracket in 2023")+         #the \n puts a break in the title to make it two rows
+  theme_grey()+
+  scale_x_discrete(position = "top") +                 #put x axis on top because it was getting all smooshed otherwise
+  theme(
+    axis.title.x = element_text(size=8,vjust = 0, hjust = 0.5), #tweaking stuff to make axes look semi normal
+    plot.margin = unit(c(1, 0.5, 0.5, 0.5), "cm") 
+  )+
+  theme (axis.text.x.top = element_text(size=6,angle=90,hjust=-.1))+      #not totally happy with this but was spending way too much time tweaking it
+  theme(axis.title.y = element_text(size=8))+
+  theme(legend.position = "none")+
+  theme(plot.title = element_text(
+      size = 10,
+      face = "bold"))
+barplot
+```
+
+
+Combine Plots
+```{r}
+combined_plot <- (violin+barplot) +       #combine plots with patchwork
+  plot_layout(
+    widths = c(1.25, .75)
+  )
+
+interactive_plot<-girafe(ggobj=combined_plot)      #use girafe obj on the combined plot to acitavate interactivity 
+
+interactive_plot <- girafe_options(
+  interactive_plot,
+  opts_hover(css = "stroke:black;cursor:pointer;"),           #just some interactive aesthetic stuff
+  opts_selection(type = "single", css = "fill:red;stroke:black;")
+)
+
+interactive_plot
+
+save_html(interactive_plot, file="TT4.html")            #save!
+ggsave(here("TidyTuesday","Outputs","TT4.png"),width=7,height=5)
+```
+
+
+## Summary:
+This week I was able to complete my goal from two weeks ago and create two interactive plots that interact with eachother (new thing!). It was difficult to figure out how to plot two sets of complementary information with this set and then figure out how exactly to make them interact *_together_* not just interactive but separately. In this plot, if you hover over each violin it highlights the income group on the bar graph that corresponds, and then when you highlight the bar graph it tells you the income level and region name. 
+
