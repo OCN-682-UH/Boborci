@@ -1,0 +1,95 @@
+---
+title: "TidyTues_EC"
+author: "Madigan Boborci"
+format:
+  html:
+    toc: true
+    theme: cerulean
+    mainfont: "Georgia"
+    prefer-html: true
+execute: 
+  message: false 
+  warning: false 
+---
+
+## Intro:
+
+This week's Tidy Tuesday is based off of the Sechselaeuten Spring Festival in Zurich.
+
+## Libraries
+
+```{r}
+#| code-fold: true
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(here)
+library(tidytext)
+library(wordcloud2)
+library(plotly)
+library(stringr)
+library(paletteer)
+library(ellipse)
+library(RColorBrewer)
+```
+
+## Data:
+
+```{r}
+#| code-fold: true
+
+sechselaeuten <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-12-02/sechselaeuten.csv')
+#View(sechselaeuten)
+```
+
+```{r}
+#| code-fold: true
+
+#Clean my datframe
+snowman_clean <- sechselaeuten %>%
+  rename(
+    ave_air = tre200m0,
+    min_air = tre200mn,
+    max_air=tre200mx,
+    total_sun=sre000m0,
+    percent_sun=sremaxmv,
+    total_precip=rre150m0
+  )
+#View(snowman_clean)
+```
+
+## Make a Plot:
+
+```{r}
+#png(here("TidyTuesday", "Outputs","EC_TidyTues.png"), width = 800, height = 800, units = "px") --> used to save
+
+
+snow<-cor(snowman_clean)   #make correlation matrix
+
+my_colors <- brewer.pal(5, "RdBu")
+my_colors <- colorRampPalette(my_colors)(100)
+
+
+ord <- order(snow[1, ])   #identifies order of the matrix, starting with row 1 and sorts them in an order that will make correlative sense
+data_ord <- snow[ord, ord]     #use to reorder rows AND columns, basically makes the matrix into an order that lines up
+par(cex = 0.7) #for some reason, other way to shrink the text wasn't working, so did this instead
+par(family = "serif") #want serif fonts because I hate sans serifs
+plotcorr(data_ord, col=my_colors[data_ord*50+50] , mar=c(1,1,4,1), main = "Correlation Matrix of the Sechselaeuten Festival", cex.main = 1.5 )  #inputs colors, defines them based on correlation values, and spaces out the margins of the matrix evenly, except for extending the top margin for clarity
+par(cex=1.0) #reset global text size
+
+
+#dev.off() --> used to save
+```
+
+
+
+
+## Summary:
+This week, I decided that the best way to look at all of this seemingly unrelated data was to make a correlogram of all the variables. This ellipse correlogram is the **New Thing** I learned. This package deals in baseR, so I also had to figure out new ways of manipulating my labs as well. In this plot, the color scale goes from highly negatively correlated (darker red), to low/zero correlation (~white), to highly positively correlated (darker blue). The y-margin of the ellipses also represent the correlation value , with skinner ellipses being higher correlated, and the angle of the ellipse displays the positive or negative value of that correlation (upwards to the right is positively correlated). This also means that the positions where a variable is correlated to itself will have practically a line, since the correlation value will equal +1. The duration row and column have no ellipses, meaning that they were *_not significantly correlated_* with any other variable, meaning the duration of time it takes to explode the snowman is not representative of the type of spring that awaits Zurich.  
+
+
+
+
+
+
